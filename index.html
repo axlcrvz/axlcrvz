@@ -1,359 +1,300 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Beats exclusivos beats tuyos. Compra beats únicos por solo $45 y asegura que tu música destaque. No dejes que otros se adelanten.">
-  <title>@axlcrvz - Beats Exclusivos</title>
-  <style>
-    /* Base styling */
-    body {
-      background-color: #0A0A0A;
-      color: #F1F1F1;
-      font-family: 'Lato', sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.8;
-      overflow-x: hidden;
-      font-size: 1.1rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Landing page for a futuristic music producer and digital marketer, offering services in an elegant, minimalist design.">
+    <meta name="keywords" content="music production, beatmaking, digital marketing, services, portfolio">
+    <meta name="author" content="Your Brand">
+    <title>Music Producer & Digital Marketer - Your Brand</title>
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    
-    /* Animations */
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-    }
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --accent-color: #ffffff;
+            --form-bg-color: #151515;
+            --form-border-color: #333333;
+            --button-bg-color: #1f1f1f;
+            --button-hover-bg: #f5f5f5;
+            --button-hover-text: #0a0a0a;
+            --shadow-color: rgba(255, 255, 255, 0.05);
+        }
 
-    /* Smooth transitions */
-    * {
-      transition: all 0.4s ease;
-    }
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            font-size: 18px;
+        }
 
-    /* Container for margins */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        h1, h2, h3 {
+            font-family: 'Inter', sans-serif;
+            color: var(--accent-color);
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
 
-.benefits-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px; /* This provides padding on the sides */
-  display: flex; /* Allow children to be flex items */
-  justify-content: center; /* Center the content horizontally */
-}
- 
-    /* Header */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background-color: rgba(10, 10, 10, 0.9);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 1s ease forwards;
-    }
+        h1 {
+            font-size: 3.5rem;
+            text-align: center;
+            padding: 40px 0;
+            letter-spacing: 0.05em;
+        }
 
-    .header a {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #F1F1F1;
-      text-transform: uppercase;
-    }
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
 
-    .header a:hover {
-      color: #D4AF37;
-    }
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
 
-    .header .cta-button {
-      background-color: #D4AF37;
-      color: #0A0A0A;
-      padding: 10px 20px;
-      margin-right: 45px;
-      font-size: 0.8rem;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
-      animation: fadeIn 2s ease forwards;
-    }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .header .cta-button:hover {
-      background-color: #C79827;
-      box-shadow: 0 15px 25px rgba(212, 175, 55, 0.7);
-      transform: translateY(-3px);
-    }
+        header {
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
 
-    /* Gradient Text */
-    .gradient-text {
-      background: linear-gradient(90deg, #D4AF37, #F1F1F1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .hero-section {
+            padding: 80px 0;
+            text-align: center;
+        }
 
-    /* Hero Section */
-    .hero {
-      padding: 120px 0;
-      text-align: center;
-      background-color: #0F0F0F;
-      animation: fadeIn 1.5s ease forwards;
-    }
+        .hero-section h1 {
+            margin-bottom: 15px;
+        }
 
-    .hero h1 {
-      font-size: 3.2rem;
-      color: #D4AF37;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #D4AF37, #F1F1F1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #b0b0b0;
+        }
 
-    .hero p {
-      font-size: 1.4rem;
-      max-width: 650px;
-      margin: 0 auto 40px;
-      color: #BBB;
-      font-weight: 300;
-      font-style: italic;
-      animation: fadeIn 1.8s ease forwards;
-    }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--button-bg-color);
+            border: 1px solid var(--form-border-color);
+            padding: 12px 30px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 30px;
+            font-weight: bold; /* Changed links to bold */
+        }
 
-    .cta-button {
-      background-color: #D4AF37;
-      color: #0A0A0A;
-      padding: 15px 40px;
-      font-size: 1.2rem;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
-      animation: fadeIn 2s ease forwards;
-    }
+        .cta-button:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
 
-    .cta-button:hover {
-      background-color: #C79827;
-      box-shadow: 0 15px 30px rgba(212, 175, 55, 0.7);
-      transform: translateY(-3px);
-    }
+        .about-section {
+            padding: 80px 0;
+            text-align: center;
+        }
 
-    /* Benefits Section */
-    .benefits {
-      display: flex;
-      justify-content: space-between;
-      padding: 50px 0;
-      background-color: #111;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    .benefit-card {
-      background-color: #1A1A1A;
-      padding: 30px;
-      border-radius: 15px;
-      width: 30%;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
-      text-align: center;
-      transition: transform 0.3s ease;
-      margin: 0 10px; /* Adding some spacing between cards */
-    }
-
-    .benefit-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 50px rgba(212, 175, 55, 0.7);
-    }
-
-    .benefit-card i {
-      font-size: 2rem;
-      color: #D4AF37;
-      margin-bottom: 15px;
-    }
-
-    .benefit-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: #F1F1F1;
-      background: linear-gradient(90deg, #D4AF37, #F1F1F1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .benefit-card p {
-      font-size: 1rem;
-      color: #DDD;
-    }
-
-    /* Social Icons */
-    .socials {
-      text-align: center;
-      padding: 40px 0;
-    }
-
-    .socials-title {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: #D4AF37;
-      background: linear-gradient(90deg, #D4AF37, #F1F1F1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .socials a {
-      display: inline-block;
-      width: 220px;
-      padding: 15px 0;
-      margin: 10px;
-      background-color: #444;
-      border-radius: 30px;
-      text-align: center;
-      color: #F1F1F1;
-    }
-
-    .socials a:hover {
-      background-color: #666;
-      box-shadow: 0 15px 30px rgba(68, 68, 68, 0.7);
-      transform: translateY(-3px);
-    }
-
-    .socials i {
-      margin-right: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .socials a:hover i {
-      transform: rotate(10deg);
-    }
-
-    /* Footer */
-    .footer {
-      padding: 30px 0;
-      background-color: #0C0C0C;
-      text-align: center;
-      color: #AAA;
-    }
-
-    .footer p {
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    /* Playlist Section */
-    .section.playlist {
-      padding: 50px 0;
-      background-color: #101010;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    .playlist-title {
-      text-align: center;
-      font-size: 1.8rem;
-      color: #D4AF37;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #D4AF37, #F1F1F1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-.benefits-container {
-        flex-direction: column; /* Stack cards vertically */
-        align-items: center; /* Center cards horizontally */
-    }
-
-    .benefit-card {
-        max-width: 95%; /* Increase width to take up more space */
-        margin: 10px 0; /* Add vertical spacing between cards */
-        padding: 20px; /* Increase padding for better appearance */
-              width: 90%;
-    }
+        .about-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b0b0b0;
+        }
+        @media only screen and (max-width: 600px) {
+                .about-section {
+            max-width: 90%;
+        }
 }
 
+        .services-section {
+            padding: 60px 0;
+            background-color: #151515;
+            text-align: center;
+        }
 
-    }
-  </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .service-item {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            background-color: var(--form-bg-color);
+            border: 1px solid var(--form-border-color);
+            border-radius: 12px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-item h3 {
+            color: var(--accent-color);
+        }
+
+        .service-item p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #b0b0b0;
+        }
+
+        .cta-service-button {
+            background-color: var(--button-bg-color);
+            color: var(--accent-color);
+            border: 1px solid var(--form-border-color);
+            padding: 10px 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 30px;
+            font-weight: bold; /* Changed links to bold */
+        }
+
+        .cta-service-button:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
+
+        .social-media-section {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        /* Social media buttons stack like Linktree */
+        .social-media-icons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .social-media-icons a {
+            display: inline-block;
+            width: 200px;
+            padding: 15px;
+            background-color: var(--button-bg-color);
+            border: 1px solid var(--form-border-color);
+            text-align: center;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-size: 1rem;
+            color: var(--accent-color);
+            border-radius: 30px;
+            font-weight: bold; /* Changed links to bold */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .social-media-icons a:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
+
+        footer {
+            padding: 20px 0;
+            background-color: #111111;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        footer p {
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .services-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <!-- Header -->
-  <header class="header fade-in">
-    <a href="#home">@axlcrvz</a>
-    <a href="https://706.soundee.com/" class="cta-button">Compra tu Beat Hoy</a>
-  </header>
 
-  <!-- Hero Section -->
-  <section class="hero fade-in">
-    <div class="container">
-      <h1 class="gradient-text">Beats Exclusivos, beats tuyos.</h1>
-      <p>Asegúrate de que nadie más use tu sonido.</p>
-      <a href="https://706.soundee.com/" class="cta-button">Comprar Ahora</a>
-    </div>
-  </section>
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <h1>axl cruz</h1>
+        <p>Desarrollo Web • Publicidad Digital • Producción Musical</p>
+        <a href="#service" class="cta-button">Trabajemos juntos</a>
+    </header>
 
-  <!-- Benefits Section -->
-  <section class="benefits fade-in">
-    <div class="benefits-container">
-      <div class="benefit-card">
-        <i class="fas fa-lock"></i>
-        <h3>Exclusividad Garantizada</h3>
-        <p>Una vez comprado, el beat desaparece para siempre.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-music"></i>
-        <h3>Alta Calidad</h3>
-        <p>Producciones profesionales listas para destacar tu música.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-dollar-sign"></i>
-        <h3>Ya están sonando</h3>
-        <p>Algunos artistas ya están creando con mis beats y siendo escuchados.</p>
-      </div>
-    </div>
-  </section>
+    <!-- About Section -->
+    <section class="about-section container">
+        <h2>Transformando ideas</h2>
+        <p>Mi objetivo es transformar tus ideas en campañas memorables que conecten de manera auténtica con tu audiencia, generando un impacto positivo y duradero en tu negocio.</p>
+    </section>
 
-  <!-- Social Proof Section (Spotify Embed) -->
-  <section class="section playlist fade-in">
-    <div class="container">
-      <h2 class="playlist-title">Escucha lo que otros han creado</h2>
-      <iframe src="https://open.spotify.com/embed/playlist/4v0XbpJbXsgPXzanIOo1yQ?utm_source=generator&theme=0" width="100%" height="480" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    <!-- Services Section -->
+    <section id="service" class="services-section">
+        <h2>Lo que sé hacer</h2>
+        <div class="services-grid container">
+            <!-- Service 1 -->
+            <div class="service-item">
+                <h3>Desarrollo Web</h3>
+                <p>Transforma tu visión en realidad con sitios web personalizados.</p>
+                <a href="https://t.me/axlcrvz" class="cta-service-button">Transforma Tu Presencia</a>
+            </div>
+            <!-- Service 2 -->
+            <div class="service-item">
+                <h3>social media mgmt</h3>
+                <p>Estrategias efectivas para aumentar tu presencia en redes sociales y fomentar la interacción con tu audiencia.</p>
+                <a href="https://t.me/axlcrvz" class="cta-service-button">Mejora Tu Presencia</a>
+            </div>
+            <!-- Service 3 -->
+            <div class="service-item">
+                <h3>Publicidad digital</h3>
+                <p>Campañas publicitarias diseñadas para maximizar tu alcance y generar conversiones en plataformas digitales.</p>
+                <a href="https://t.me/axlcrvz" class="cta-service-button">Aumenta Tu Alcance</a>
+                </div>
+                            <!-- Service 4 -->
+            <div class="service-item">
+                <h3>beats exclusivos</h3>
+                <p>Instrumentales únicos que solo tú podrás usar para grabar tus canciones y lanzarlas en todas las plataformas.</p>
+                <a href="https://axlcrvz.com/beats" class="cta-service-button">Consigue Tu Beat Exclusivo</a>
+            </div>
+        </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- Social Media Section (Linktree Style) -->
+    <section class="social-media-section container">
+        <h2>conecta conmigo</h2>
+        <div class="social-media-icons">
+            <a href="https://instagram.com/axlcrvz" target="_blank">Instagram</a>
+            <a href="https://t.me/axlcrvz" target="_blank">Telegram</a>
+            <a href="https://x.com/axlcrvz" target="_blank">X</a>
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="mailto:axlcrvz@proton.me" target="_blank">Email</a>
+        </div>
+    </section>
 
-  <!-- Social Links Section -->
-  <section class="socials fade-in">
-    <h2 class="socials-title">Conecta conmigo</h2>
-    <a href="https://instagram.com/axlcrvz" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-    <a href="https://t.me/axlcrvz" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-    <a href="https://twitter.com/axlcrvz" target="_blank"><i class="fab fa-twitter"></i> X</a>
-    <a href="mailto:axlcrvz@proton.me"><i class="fas fa-envelope"></i> Email</a>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2024 @axlcrvz. Todos los derechos reservados. <a href="https://axlcrvz.com" style="color: #D4AF37;">axlcrvz.com</a></p>
-  </footer>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 @axlcrvz | <a style="color:lightgrey" href="https://axlcrvz.com">axlcrvz.com</a></p>
+    </footer>
 
 </body>
 </html>
