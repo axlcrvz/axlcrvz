@@ -137,10 +137,13 @@
             justify-content: space-between;
             gap: 30px;
         }
+                @media only screen and (max-width: 600px) {.services-grid {
+                 max-width: 90%;   
+                }
 
         .service-item {
             flex: 1;
-            min-width: 300px;
+            min-width: 0px;
             padding: 30px;
             background-color: var(--form-bg-color);
             border: 1px solid var(--form-border-color);
@@ -161,17 +164,20 @@
             margin-bottom: 20px;
             color: #b0b0b0;
         }
+        @media (max-width:768px) {
+            .cta-service-button {font-size:0.9rem;
+            padding:0 90%;
+        }
 
         .cta-service-button {
             background-color: var(--button-bg-color);
             color: var(--accent-color);
             border: 1px solid var(--form-border-color);
-            padding: 10px 20px;
+            padding: 10px ;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
             border-radius: 30px;
-            font-weight: bold; /* Changed links to bold */
         }
 
         .cta-service-button:hover {
