@@ -1,308 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Landing page for a futuristic music producer and digital marketer, offering services in an elegant, minimalist design.">
-    <meta name="keywords" content="music production, beatmaking, digital marketing, services, portfolio">
-    <meta name="author" content="Your Brand">
-    <title>Music Producer & Digital Marketer - Your Brand</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-    <!-- Custom Styles -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Minimalistic Linktree</title>
     <style>
-      :root {
-        --background-color: #0a0a0a;
-        --text-color: #e0e0e0;
-        --accent-color: #ffffff;
-        --form-bg-color: #151515;
-        --form-border-color: #333333;
-        --button-bg-color: #1f1f1f;
-        --button-hover-bg: #f5f5f5;
-        --button-hover-text: #0a0a0a;
-        --shadow-color: rgba(255, 255, 255, 0.05);
-      }
-
-      body {
-        background-color: var(--background-color);
-        color: var(--text-color);
-        font-family: 'Inter', sans-serif;
-        margin: 0;
-        padding: 0;
-        line-height: 1.7;
-        font-size: 18px;
-      }
-
-      h1,
-      h2,
-      h3 {
-        font-family: 'Inter', sans-serif;
-        color: var(--accent-color);
-        margin: 0;
-        padding: 0;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        font-size: 3.5rem;
-        text-align: center;
-        padding: 40px 0;
-        letter-spacing: 0.05em;
-      }
-
-      h2 {
-        font-size: 2rem;
-        text-align: center;
-        margin-bottom: 15px;
-      }
-
-      h3 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-      }
-
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-
-      header {
-        padding: 50px 0;
-        text-align: center;
-        border-bottom: 1px solid #222;
-      }
-
-      .hero-section {
-        padding: 80px 0;
-        text-align: center;
-      }
-
-      .hero-section h1 {
-        margin-bottom: 15px;
-      }
-
-      .hero-section p {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        color: #b0b0b0;
-      }
-
-      .cta-button {
-        display: inline-block;
-        background-color: var(--button-bg-color);
-        border: 1px solid var(--form-border-color);
-        padding: 12px 30px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        color: var(--accent-color);
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border-radius: 30px;
-        font-weight: bold;
-        /* Changed links to bold */
-      }
-
-      .cta-button:hover {
-        background-color: var(--button-hover-bg);
-        color: var(--button-hover-text);
-      }
-
-      .about-section {
-        padding: 80px 0;
-        text-align: center;
-      }
-
-      .about-section p {
-        font-size: 1.1rem;
-        max-width: 800px;
-        margin: 0 auto;
-        color: #b0b0b0;
-      }
-
-      @media only screen and (max-width: 600px) {
-        .about-section {
-          max-width: 90%;
-        }
-      }
-
-      .services-section {
-        padding: 60px 0;
-        background-color: #151515;
-        text-align: center;
-      }
-
-      .services-grid {
-        padding: 60px 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 30px;
-      }
-
-      .service-item {
-        flex: 1;
-        min-width: 300px;
-        padding: 30px;
-        background-color: var(--form-bg-color);
-        border: 1px solid var(--form-border-color);
-        border-radius: 12px;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-      }
-
-      .service-item:hover {
-        transform: translateY(-5px);
-      }
-
-      .service-item h3 {
-        color: var(--accent-color);
-      }
-
-      .service-item p {
-        font-size: 1rem;
-        margin-bottom: 20px;
-        color: #b0b0b0;
-      }
-
-      .cta-service-button {
-        background-color: var(--button-bg-color);
-        color: var(--accent-color);
-        border: 1px solid var(--form-border-color);
-        padding: 10px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-radius: 30px;
-      }
-
-      .cta-service-button:hover {
-        background-color: var(--button-hover-bg);
-        color: var(--button-hover-text);
-      }
-
-      .social-media-section {
-        padding: 40px 0;
-        text-align: center;
-      }
-
-      /* Social media buttons stack like Linktree */
-      .social-media-icons {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-      }
-
-      .social-media-icons a {
-        display: inline-block;
-        width: 200px;
-        padding: 15px;
-        background-color: var(--button-bg-color);
-        border: 1px solid var(--form-border-color);
-        text-align: center;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-size: 1rem;
-        color: var(--accent-color);
-        border-radius: 30px;
-        font-weight: bold;
-        /* Changed links to bold */
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-
-      .social-media-icons a:hover {
-        background-color: var(--button-hover-bg);
-        color: var(--button-hover-text);
-      }
-
-      footer {
-        padding: 20px 0;
-        background-color: #111111;
-        text-align: center;
-        color: var(--text-color);
-      }
-
-      footer p {
-        font-size: 0.8rem;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .services-grid {
-          flex-direction: column;
-        }
-      }
-
-      @media only screen and (max-width: 768px) {
-        .services-grid {
-          max-width: 90%;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .cta-service-button {
-          font-size: 0.9rem;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px;
+            scroll-behavior: smooth;
         }
 
-        .service-item {
-          min-width: 0px
+        a {
+            text-decoration: none;
+            color: #f1f1f1;
+        }
+
+        /* Smooth fade-in animation for all elements */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Fixed header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(26, 26, 26, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .cta-header {
+            background-color: transparent;
+            border: 2px solid #f1f1f1;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .cta-header:hover {
+            background-color: #f1f1f1;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #c9c9c9;
+        }
+
+        .cta-hero {
+            background-color: transparent;
+            border: 2px solid #f1f1f1;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .cta-hero:hover {
+            background-color: #f1f1f1;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+
+        /* Links Section */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .link-card {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 15px 0;
+            width: 100%;
+            border: 1px solid #444;
+            border-radius: 10px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .link-card:hover {
+            background-color: #f1f1f1;
+            color: #1a1a1a;
+        }
+
+        .link-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .link-card p {
+            font-size: 14px;
+            color: #c9c9c9;
+            margin-bottom: 15px;
+        }
+
+        .cta-link {
+            background-color: transparent;
+            border: 2px solid #f1f1f1;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .cta-link:hover {
+            background-color: #f1f1f1;
+            color: #1a1a1a;
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px;
+            margin-top: auto;
+            text-align: center;
+            font-size: 14px;
+            color: #c9c9c9;
+            border-top: 1px solid #444;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (max-width:768px){
+            .hero {
+                max-width:90%
+            }
+            .links-container {
+                max-width: 90%;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <!-- Hero Section -->
-    <header class="hero-section">
-      <h1>axl cruz</h1>
-      <p>Desarrollo Web • Publicidad Digital • Producción Musical</p>
-      <a href="#service" class="cta-button">Trabajemos juntos</a>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fade-in">
+        <div class="logo">@axlcrvz</div>
+        <a href="https://t.me/axlcrvz" class="cta-header">Mándame un Mensaje</a>
     </header>
-    <!-- About Section -->
-    <section class="about-section container">
-      <h2>Transformando ideas</h2>
-      <p>Mi objetivo es transformar tus ideas en campañas memorables que conecten de manera auténtica con tu audiencia, generando un impacto positivo y duradero en tu negocio.</p>
+<br>
+<br>
+<br>
+    <!-- Hero Section -->
+    <section class="hero fade-in">
+        <h1>Axl Cruz</h1>
+        <p>Links Oficiales</p>
+        <a href="#links" class="cta-hero">Explorar Links</a>
     </section>
-    <!-- Services Section -->
-    <section id="service" class="services-section">
-      <h2>Lo que sé hacer</h2>
-      <div class="services-grid container">
-        <!-- Service 1 -->
-        <div class="service-item">
-          <h3>Desarrollo Web</h3>
-          <p>Transforma tu visión en realidad con sitios web personalizados.</p>
-          <a href="https://t.me/axlcrvz" class="cta-service-button">Transforma Tu Presencia</a>
+
+    <!-- Links Section -->
+    <section class="links-container fade-in" id="links">
+        <div class="link-card">
+            <h3>Mente Digital: Conecta, Crea, Crece.</h3>
+            <p>Agencia de Publicidad Digital.</p>
+            <a href="https://www.mentedigitalqro.com/" class="cta-link">Aumenta Tu Alcance</a>
         </div>
-        <!-- Service 2 -->
-        <div class="service-item">
-          <h3>social media mgmt</h3>
-          <p>Estrategias efectivas para aumentar tu presencia en redes sociales y fomentar la interacción con tu audiencia.</p>
-          <a href="https://t.me/axlcrvz" class="cta-service-button">Mejora Tu Presencia</a>
+        <div class="link-card">
+            <h3>Beats Exclusivos</h3>
+            <p>Instrumentales únicos que solo tú podrás usar</p>
+            <a href="https://axlcrvz.com/beats" class="cta-link">Consigue Un Beat Exclusivo</a>
         </div>
-        <!-- Service 3 -->
-        <div class="service-item">
-          <h3>Publicidad digital</h3>
-          <p>Campañas publicitarias diseñadas para maximizar tu alcance y generar conversiones en plataformas digitales.</p>
-          <a href="https://t.me/axlcrvz" class="cta-service-button">Aumenta Tu Alcance</a>
+        <div class="link-card">
+            <h3>Instagram</h3>
+            <p>Cuenta oficial.</p>
+            <a href="https://instagram.com/axlcrvz" class="cta-link">Sígueme</a>
         </div>
-        <!-- Service 4 -->
-        <div class="service-item">
-          <h3>beats exclusivos</h3>
-          <p>Instrumentales únicos que solo tú podrás usar para grabar tus canciones y lanzarlas en todas las plataformas.</p>
-          <a href="https://axlcrvz.com/beats" class="cta-service-button">Consigue Tu Beat</a>
+
+        <div class="link-card">
+            <h3>Telegram</h3>
+            <p>Aquí contesto más rápido.</p>
+            <a href="https://t.me/axlcrvz" class="cta-link">Escríbeme</a>
         </div>
-      </div>
+
+        <div class="link-card">
+            <h3>X</h3>
+            <p>A veces lo uso.</p>
+            <a href="https://x.com/axlcrvz" class="cta-link">Visitar</a>
+        </div>
+        <div class="link-card">
+            <h3>LinkedIn</h3>
+            <p>Un poco sobre mi experiencia laboral.</p>
+            <a href="https://www.linkedin.com/in/axlcrvz/" class="cta-link">Leer</a>
+        </div>
+        <div class="link-card">
+            <h3>Email</h3>
+            <p>Business only.</p>
+            <a href="mailto:axlcrvz@proton.me" class="cta-link">Mandar Correo</a>
+        </div>
+
     </section>
-    <!-- Social Media Section (Linktree Style) -->
-    <section class="social-media-section container">
-      <h2>conecta conmigo</h2>
-      <div class="social-media-icons">
-        <a href="https://instagram.com/axlcrvz" target="_blank">Instagram</a>
-        <a href="https://t.me/axlcrvz" target="_blank">Telegram</a>
-        <a href="https://x.com/axlcrvz" target="_blank">X</a>
-        <a href="https://www.linkedin.com/in/axlcrvz/" target="_blank">LinkedIn</a>
-        <a href="mailto:axlcrvz@proton.me" target="_blank">Email</a>
-      </div>
-    </section>
+
     <!-- Footer -->
-    <footer>
-      <p>© 2024 @axlcrvz | <a style="color:lightgrey" href="https://axlcrvz.com">axlcrvz.com</a>
-      </p>
+    <footer class="fade-in">
+        <p>&copy; 2024 @axlcrvz | <a href="https://axlcrvz.com">axlcrvz.com</a></p>
     </footer>
-  </body>
+
+</body>
 </html>
