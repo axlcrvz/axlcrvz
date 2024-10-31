@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Elite para Productores de Beats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #ffd700;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --gradient-start: #1a1a1a;
+            --gradient-end: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #000;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('/api/placeholder/1920/1080') center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .benefits {
+            background: var(--gradient-start);
+            padding: 6rem 2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .benefit-card i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .testimonials {
+            background: var(--gradient-end);
+            padding: 6rem 2rem;
+            color: white;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .cta-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+                        url('/api/placeholder/1920/1080') center/cover fixed;
+            padding: 6rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .benefits-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animated gradient border */
+        .form-container {
+            position: relative;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-color), transparent, var(--accent-color));
+            border-radius: 16px;
+            z-index: -1;
+            animation: borderGradient 3s ease infinite;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Vende Más Beats con Estas Estrategias de Marketing</h1>
+            <p>Accede a tácticas comprobadas para destacar, atraer más clientes y aumentar tus ingresos semanales. Convierte tu pasión en un negocio rentable.</p>
+            
+            <div class="form-container">
+                <iframe src="https://embeds.beehiiv.com/1ea7de94-3cf4-473a-b119-cffe3b147d7a?slim=true" 
+                        data-test-id="beehiiv-embed" 
+                        height="52" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        style="margin: 0; border-radius: 0px !important; background-color: transparent; width: 100%;"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Incrementa Tus Ventas</h3>
+                <p>Implementa estrategias probadas para multiplicar tus ingresos y establecer un flujo constante de clientes.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-bullseye"></i>
+                <h3>Marketing Específico</h3>
+                <p>Aprende a identificar y alcanzar a tu audiencia ideal para maximizar la conversión de tus campañas.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-globe"></i>
+                <h3>Alcance Global</h3>
+                <p>Expande tu negocio internacionalmente y conecta con artistas de todo el mundo.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stat-card">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Productores Exitosos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">300%</div>
+            <div class="stat-label">Incremento Promedio</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">3K+</div>
+            <div class="stat-label">Beats Vendidos</div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>Lo Que Dicen Mis Estudiantes</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"Vendi mi primer beat gracias a estas estrategias. No me lo esperaba."</p>
+                <h4>Carlos R.</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"La mejor inversión que he hecho. Ahora tengo clientes recurrentes."</p>
+                <h4>María S.</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"Increíble cómo algo tan simple puede hacer tanta diferencia. Mis beats ahora se venden solos."</p>
+                <h4>Juan P.</h4>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>¿Listo para Llevar tu Negocio al Siguiente Nivel?</h2>
+        <div class="form-container">
+            <iframe src="https://embeds.beehiiv.com/1ea7de94-3cf4-473a-b119-cffe3b147d7a?slim=true" 
+                    data-test-id="beehiiv-embed" 
+                    height="52" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    style="margin: 0; border-radius: 0px !important; background-color: transparent; width: 100%;"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p> © 2024 | <a style=color:grey; href="https://www.axlcrvz.com">axlcrvz.com</a></p>
+    </footer>
+</body>
+</html>
