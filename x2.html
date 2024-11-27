@@ -385,13 +385,6 @@
       </div>
     </footer>
     <script>
-      // Email Form Handling
-      document.getElementById('email-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = e.target.querySelector('input[type="email"]').value;
-        console.log('Email submitted:', email);
-        // Add your email handling logic here
-      });
       // FAQ Toggles
       document.querySelectorAll('.faq-question').forEach(question => {
         question.addEventListener('click', () => {
@@ -416,41 +409,6 @@
         timer.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       }
       setInterval(updateTimer, 1000);
-      // Audio Player Simulation
-      document.querySelectorAll('.play-button').forEach(button => {
-        button.addEventListener('click', function() {
-          const icon = this.querySelector('i');
-          const isPlaying = icon.classList.contains('fa-pause');
-          // Reset all buttons
-          document.querySelectorAll('.play-button i').forEach(i => {
-            i.classList.replace('fa-pause', 'fa-play');
-          });
-          if (!isPlaying) {
-            icon.classList.replace('fa-play', 'fa-pause');
-            simulateProgress(this.closest('.audio-player').querySelector('.progress'));
-          }
-        });
-      });
-
-      function simulateProgress(progressBar) {
-        let width = 0;
-        const interval = setInterval(() => {
-          if (width >= 100) {
-            clearInterval(interval);
-            progressBar.style.width = '0%';
-            progressBar.closest('.audio-player').querySelector('i').classList.replace('fa-pause', 'fa-play');
-          } else {
-            width += 0.5;
-            progressBar.style.width = width + '%';
-          }
-        }, 50);
-        // Clear any existing intervals
-        document.querySelectorAll('.progress').forEach(p => {
-          if (p !== progressBar) {
-            p.style.width = '0%';
-          }
-        });
-      }
       // Smooth Scroll for CTA buttons
       document.querySelectorAll('.cta-button').forEach(button => {
         button.addEventListener('click', function(e) {
