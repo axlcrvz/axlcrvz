@@ -3,33 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Example</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+    <title>PDF Viewer</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        .embed-container {
-            position: relative;
-            width: 100%;
-            height: 100vh; /* Full height of the viewport */
-            overflow: hidden; /* Hide overflow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
         }
         iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            border: none; /* Remove border */
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <div class="embed-container">
-        <iframe src="https://axlcrvz.com/Beats%20que%20Venden.pdf" title="Embedded Website"></iframe>
-    </div>
+    <iframe src="https://axlcrvz.com/Beats%20que%20Venden.pdf" allow="fullscreen"></iframe>
 </body>
 </html>
