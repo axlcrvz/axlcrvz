@@ -27,6 +27,11 @@
         background-color: var(--primary-black);
         color: var(--primary-white);
         line-height: 1.6;
+
+margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
       }
 
       /* Typography */
@@ -53,49 +58,40 @@
         color: var(--neon-green);
       }
 
- /* Header */
+
+
+/* Header */
 header {
-    padding: 1rem 2rem;
+    padding: 1rem;
     position: fixed;
-    width: 100%;
+    width: 100vw; /* Use viewport width instead of percentage */
     top: 0;
+    left: 0;
     z-index: 1000;
     background: rgba(0, 0, 0, 0.9);
     backdrop-filter: blur(5px);
     box-sizing: border-box;
-    left: 0; /* Added to ensure proper positioning */
 }
 
 /* Header content */
 .header-content {
-    width: 100%; /* Changed from max-width */
-    margin: 0 auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
+    /* Keep it simple for mobile */
     header {
-        padding: 1rem;
+        position: fixed;
+        width: 100%;
     }
     
     .header-content {
         flex-direction: column;
-        gap: 1rem; /* Added spacing between stacked items */
-        align-items: center; /* Changed to center for better mobile layout */
-    }
-}
-
-@media (max-width: 480px) {
-    header {
-        padding: 0.75rem; /* Adjusted for better spacing */
-    }
-    
-    .header-content {
-        gap: 0.75rem; /* Reduced gap for smaller screens */
+        gap: 0.5rem;
     }
 }
 
