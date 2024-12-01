@@ -53,11 +53,11 @@
         color: var(--neon-green);
       }
 
-      /* Header */
-      header {
+ /* Header */
+header {
     padding: 1rem 2rem;
     position: fixed;
-    width: 100%; /* Change from 1200px to 100% */
+    width: 100%; /* Full width */
     max-width: 1200px; /* Optional: Maintain a maximum width */
     top: 0;
     z-index: 1000;
@@ -66,14 +66,40 @@
     box-sizing: border-box;
 }
 
-      .header-content {
-        max-width: 100%;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-box-sizing: border-box;
-      }
+/* Header content */
+.header-content {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem; /* Reduce padding on smaller screens */
+    }
+
+    .header-content {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the start */
+        text-align: left; /* Align text to the left */
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem; /* Further reduce padding for very small screens */
+    }
+
+    .header-content {
+        justify-content: center; /* Center items on very small screens */
+        align-items: center; /* Center items vertically */
+        width: 100%; /* Ensure full width for better touch targets */
+    }
+}
 
       .logo {
         display: flex;
@@ -304,17 +330,6 @@ box-sizing: border-box;
         h3 {
           font-size: 1.5rem;
         }
-
-    header {
-        padding: 1rem; /* Reduce padding on smaller screens */
-    }
-
-    .header-content {
-        flex-direction: column; /* Stack items vertically if needed */
-        align-items: flex-start; /* Align items to the start */
-    }
-}
-
 
         /* Roadmap */
         .roadmap-timeline {
