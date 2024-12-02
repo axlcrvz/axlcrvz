@@ -27,11 +27,10 @@
         background-color: var(--primary-black);
         color: var(--primary-white);
         line-height: 1.6;
-
-margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
       }
 
       /* Typography */
@@ -58,56 +57,57 @@ margin: 0;
         color: var(--neon-green);
       }
 
-
-
-/* Header */
-header {
-    padding: 1rem;
-    position: fixed;
-    width: 100%;  /* Changed from 100vw */
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(5px);
-    box-sizing: border-box;
-}
-
-
-/* Header content */
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo img {
-    width: 50px;
-    height: 50px;
-}
-.logo h2 {
-    margin-bottom: 0;  /* Remove default margin from h2 in logo */
-}
-
-@media (max-width: 768px) {
-    header {
+      /* Header */
+      header {
+        padding: 1rem;
         position: fixed;
         width: 100%;
-    }
-    
-    .logo h2 {
-        font-size: 1.8rem;  /* Adjust size for mobile */
-    }
-}
+        /* Changed from 100vw */
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(5px);
+        box-sizing: border-box;
+      }
+
+      /* Header content */
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .logo h2 {
+        margin-bottom: 0;
+        /* Remove default margin from h2 in logo */
+      }
+
+      @media (max-width: 768px) {
+        header {
+          position: fixed;
+          width: 100%;
+        }
+
+        .logo h2 {
+          font-size: 1.8rem;
+          /* Adjust size for mobile */
+        }
+      }
 
       /* Hero Section */
       .hero {
@@ -336,6 +336,10 @@ header {
           margin-top: 2rem;
         }
       }
+
+      a {
+        color: #39FF14;
+      }
     </style>
   </head>
   <body>
@@ -345,7 +349,6 @@ header {
           <img src="images/dawg.png" alt="$DAWG Logo">
           <h2>$DAWG</h2>
         </div>
-       
       </div>
     </header>
     <section class="hero">
@@ -400,20 +403,23 @@ header {
       <h3>The $DAWG Path to Greatness</h3>
       <div class="roadmap-timeline">
         <div class="milestone">
-          <h4>Launch $DAWG token</h4>
+          <h4>Launch $DAWG token (Q4 2024)</h4>
           <span>✅</span>
         </div>
         <div class="milestone">
-          <h4>Build Discord</h4>
+          <h4>Build Discord (Q4 2024)</h4>
           <span>✅</span>
         </div>
         <div class="milestone">
-          <h4>Meme Competitions</h4>
-          <span>🚀</span>
-        </div>
-        <div class="milestone">
-          <h4>NFT Collection</h4>
+          <h4>Social Media Blitz (Q1 2025)</h4>
           <span>Soon</span>
+        </div>
+        <div class="milestone">
+          <h4>First Meme Contest (Q1 2025)</h4>
+          <span>Soon</span>
+        </div>
+        <div class="milestone">
+          <a href="https://axlcrvz.com/dawgroad">Read Full Roadmap</a>
         </div>
       </div>
     </section>
@@ -469,13 +475,14 @@ header {
           item.className = 'faq-item';
           item.innerHTML = `
                     
-							<div class="faq-question">
-								<h4>${faq.question}</h4>
-								<span class="toggle">+</span>
-							</div>
-							<div class="faq-answer">
-								<p>${faq.answer}</p>
-							</div>
+							
+								<div class="faq-question">
+									<h4>${faq.question}</h4>
+									<span class="toggle">+</span>
+								</div>
+								<div class="faq-answer">
+									<p>${faq.answer}</p>
+								</div>
                 `;
           container.appendChild(item);
         });
