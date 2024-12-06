@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Beats Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+      }
+
+      .hero-section {
+        background: url('/api/placeholder/1920/1080') center/cover;
+        height: 100vh;
+        position: relative;
+      }
+
+      .hero-overlay {
+        background: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .nav-link {
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #FFD700;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .beat-player {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+      }
+
+      .license-card {
+        transition: transform 0.3s ease;
+      }
+
+      .license-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .scroll-indicator {
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+
+        40% {
+          transform: translateY(-20px);
+        }
+
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white">
+    <!-- Sticky Navigation -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-90 backdrop-filter backdrop-blur-lg">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+          <div class="text-xl font-bold">BeatStore</div>
+          <div class="hidden md:flex space-x-8">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#beats" class="nav-link">Browse Beats</a>
+            <a href="#licensing" class="nav-link">Licensing</a>
+            <a href="#testimonials" class="nav-link">Testimonials</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#contact" class="nav-link">Contact</a>
+          </div>
+          <button class="md:hidden">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-overlay">
+        <div class="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Beats Profesionales para tu Proxima Cancion</h1>
+          <p class="text-xl md:text-2xl mb-8">Beats con derechos comerciales para Spotify, Apple Music, Radio y mas</p>
+          <div class="flex flex-col md:flex-row gap-4">
+            <a href="#beats" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold transition-colors"> Escucha los Beats </a>
+            <a href="#telegram" class="border-2 border-white hover:bg-white hover:text-black px-8 py-3 rounded-full font-bold transition-colors"> Usalos gratis en Telegram </a>
+          </div>
+          <div class="scroll-indicator absolute bottom-8">
+            <i class="fas fa-chevron-down text-2xl"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Beat Player Section -->
+    <section id="beats" class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">Beats</h2>
+        <div class="beat-player rounded-lg p-6 mb-8">
+          <iframe src="https://player.beatstars.com/?storeId=100965" width="100%" height="500" style="max-width:1200px;"> -- none -- </iframe>
+        </div>
+      </div>
+    </section>
+    <!-- Pricing Section -->
+    <section id="licensing" class="py-20">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">Licencias</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+         
+          <!-- WAV License -->
+          <div class="license-card bg-gray-900 rounded-lg p-8 transform scale-105">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span class="bg-yellow-500 text-black px-4 py-1 rounded-full text-sm font-bold"> MOST POPULAR </span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Licencia Estandar</h3>
+            <div class="text-3xl font-bold mb-6">$24.99</div>
+            <ul class="space-y-4 mb-8">
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Formato MP3
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Formato WAV
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Uso Comercial
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Todas las Plataformas de Streaming
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Radio
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Descarga Inmediata
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Contrato por 10 an;os
+              </li>
+            </ul>
+            <a href="#beats" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold transition-colors">Comprar</a>
+          </div>
+          <!-- Track Stems License -->
+          <div class="license-card bg-gray-900 rounded-lg p-8">
+            <h3 class="text-2xl font-bold mb-4">Licencia Exclusiva</h3>
+            <div class="text-3xl font-bold mb-6">$3,000</div>
+            <ul class="space-y-4 mb-8">
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Formato MP3
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Formato WAV
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Track Stems Individuales
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Uso Comercial
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Todas las Plataformas de Streaming
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Radio
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Descarga Inmediata
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Contrato Sin Caducidad
+              </li>
+              <li>
+                <i class="fas fa-check text-green-500 mr-2"></i>Derechos Exclusivos
+              </li>
+            </ul>
+            <a href="#beats" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold transition-colors">Comprar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Telegram Section -->
+    <section id="telegram" class="py-20">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8">Unete en Telegram</h2>
+        <p class="text-xl mb-8">Descarga beats gratis y recibe ofertas exclusivas</p>
+        <a href="https://t.me/+53yqut4XuuI3NDQ5" class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-full font-bold transition-colors">
+          <i class="fab fa-telegram"></i> Telegram </a>
+      </div>
+    </section>
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">Preguntas Frecuentes</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+          <!-- FAQ Item -->
+          <div class="bg-gray-900 rounded-lg p-6">
+            <button class="w-full flex justify-between items-center">
+              <span class="font-bold">¿Qué obtengo con mi compra?</span>
+              <i class="fas fa-plus"></i>
+            </button>
+            <div class="hidden mt-4"> Recibes el beat en el formato que elijas (MP3, WAV o Stems) con derechos comerciales completos para su uso en plataformas de streaming, radio y más. </div>
+          </div>
+          <!-- Additional FAQ items would go here -->
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">Contato</h2>
+        <div class="max-w-xl mx-auto">
+          <form class="space-y-6">
+            <div>
+              <label class="block mb-2">Name</label>
+              <input type="text" class="w-full bg-gray-900 rounded-lg px-4 py-3" placeholder="Your name">
+            </div>
+            <div>
+              <label class="block mb-2">Email</label>
+              <input type="email" class="w-full bg-gray-900 rounded-lg px-4 py-3" placeholder="Your email">
+            </div>
+            <div>
+              <label class="block mb-2">Message</label>
+              <textarea class="w-full bg-gray-900 rounded-lg px-4 py-3 h-32" placeholder="Your message"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-3 rounded-full font-bold"> Send Message </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">BeatStore</h3>
+            <p class="text-gray-400">Professional beats for your next hit song.</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#home">Home</a>
+              </li>
+              <li>
+                <a href="#beats">Browse Beats</a>
+              </li>
+              <li>
+                <a href="#licensing">Licensing</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Conecta conmigo</h3>
+            <div class="flex space-x-4">
+              <a href="https://instagram.com/axlcrvz" class="text-2xl hover:text-yellow-500 transition-colors">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://www.youtube.com/@axlcrvz" class="text-2xl hover:text-yellow-500 transition-colors">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="https://t.me/+53yqut4XuuI3NDQ5" class="text-2xl hover:text-yellow-500 transition-colors">
+                <i class="fab fa-telegram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; 2024 axlcrvz.com. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      // FAQ accordion functionality
+      document.querySelectorAll('#faq button').forEach(button => {
+        button.addEventListener('click', () => {
+          const content = button.nextElementSibling;
+          const icon = button.querySelector('i');
+          content.classList.toggle('hidden');
+          icon.classList.toggle('fa-plus');
+          icon.classList.toggle('fa-minus');
+        });
+      });
+      // Mobile menu toggle
+      const mobileMenuButton = document.querySelector('nav button');
+      const mobileMenu = document.querySelector('nav .md\\:flex');
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('flex');
+        mobileMenu.classList.toggle('flex-col');
+        mobileMenu.classList.toggle('absolute');
+        mobileMenu.classList.toggle('top-16');
+        mobileMenu.classList.toggle('left-0');
+        mobileMenu.classList.toggle('right-0');
+        mobileMenu.classList.toggle('bg-black');
+        mobileMenu.classList.toggle('p-4');
+      });
+      // Intersection Observer for scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-10');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      // Observe all sections
+      document.querySelectorAll('section').forEach((section) => {
+        section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+        observer.observe(section);
+      });
+    </script>
+  </body>
+</html>
