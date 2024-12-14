@@ -81,6 +81,49 @@
           transform: translateY(-10px);
         }
       }
+
+      form {
+        background: ;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 100%;
+      }
+
+      .coleccion {
+        input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
+
+      .f-row {
+        text-align: center;
+      }
+
+      .btn {
+        background-color: #28a745;
+        /* Green background */
+        color: white;
+        /* White text */
+        padding: 10px 15px;
+        /* Padding */
+        border: none;
+        /* No border */
+        border-radius: 4px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+        width: 100%;
+      }
+
+      .btn:hover {
+        background-color: #218838;
+        /* Darker green on hover */
+      }
     </style>
   </head>
   <body class="bg-black text-white">
@@ -247,7 +290,7 @@
     <!-- Footer -->
     <footer class="bg-gray-900 py-12">
       <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 class="text-xl font-bold mb-4">BeatStore</h3>
             <p class="text-gray-400">Beats Profesionales para tu Próxima Canción.</p>
@@ -279,6 +322,15 @@
                 <i class="fab fa-telegram"></i>
               </a>
             </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">La coleccion completa: mas de 100 beats prod. por mi y colaboradores</h3>
+            <form class="coleccion" method="post" action="https://systeme.io/embedded/24721383/subscription">
+              <input type="text" name="email" placeholder="Correo Electronico" required />
+              <div class="f-row">
+                <button type="submit" class="btn">Los Quiero!</button>
+              </div>
+            </form>
           </div>
         </div>
         <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
