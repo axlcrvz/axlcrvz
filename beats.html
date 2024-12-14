@@ -412,5 +412,38 @@
         });
       });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.coleccion'); // Select your form by class
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                
+                // Optionally, you can add any pre-submission logic here
+
+                // Redirect to your landing page
+                window.location.href = 'https://shop.axlcrvz.com/la-coleccion'; // Replace with your landing page URL
+
+                // Optionally, submit the form programmatically if needed
+                // Uncomment and modify this if you want to ensure data submission:
+                /*
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    window.location.href = 'https://yourlandingpage.com'; // Redirect after successful submission
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+                */
+            });
+        }
+    });
+</script>
   </body>
 </html>
