@@ -412,5 +412,17 @@
         });
       });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.collecion'); // Select your form by class
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                alert("Your lead magnet is on its way!"); // Display your message
+                
+            });
+        }
+    });
+</script>
   </body>
 </html>
