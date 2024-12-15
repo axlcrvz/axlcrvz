@@ -76,6 +76,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 0.9rem;
+        text-decoration: none;
       }
 
       .header-cta:hover {
@@ -390,7 +391,7 @@
     <header>
       <nav>
         <div class="logo">THE TRAPFATHER</div>
-        <button class="header-cta" onclick="scrollToPricing()">Comprar Ahora</button>
+        <a href="https://shop.axlcrvz.com/11998f7b" class="header-cta">Comprar Ahora</a>
       </nav>
     </header>
     <section class="hero">
@@ -431,7 +432,7 @@
         <div class="price">$27.00</div>
         <p>Obtén los 5 beats con derechos comerciales completos</p>
         <br>
-        <button class="cta-button" onclick="handlePurchase()">Comprar Ahora</button>
+        <a href="https://shop.axlcrvz.com/11998f7b" class="header-cta">Comprar Ahora</a>
       </div>
     </section>
     <section id="testimonials" class="testimonials">
@@ -446,15 +447,8 @@
       <p>© 2024 <a href="https://axlcrvz.com" style="color:white">axlcrvz.com</a> | Todos los derechos reservados. </p>
     </footer>
     <script>
-      // Smooth scroll to pricing section
+      // Smooth scroll to video section
       function scrollToPricing() {
-        document.getElementById('pricing').scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }
-            // Smooth scroll to video section
-      function scrollToVideo() {
         document.getElementById('video').scrollIntoView({
           behavior: 'smooth',
           block: 'center'
