@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Paquete de beats de Trap con toque de Soul. Perfecto para artistas que quieren distribuir sus canciones sin restricciones.">
+    <title>The Trapfather - Premium Beats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #111111;
+        --accent-gold: #d4af37;
+        --accent-red: #8b0000;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f9d423 100%);
+        --gradient-dark: linear-gradient(135deg, #111111 0%, #333333 100%);
+        --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.2);
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      /* Enhanced Header Styles */
+      header {
+        background-color: rgba(10, 10, 10, 0.95);
+        padding: 1rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: var(--gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 1px;
+      }
+
+      .header-cta {
+        background: var(--gradient-gold);
+        color: var(--bg-primary);
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+      }
+
+      .header-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-gold);
+      }
+
+      /* Enhanced Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 1rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url('/api/placeholder/1920/1080') center/cover;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, var(--bg-primary) 100%);
+        pointer-events: none;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: var(--shadow-gold);
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Enhanced Button Styles */
+      .cta-button {
+        background: var(--gradient-gold);
+        color: var(--bg-primary);
+        padding: 1.2rem 2.5rem;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-gold);
+      }
+
+      .cta-button:active {
+        transform: translateY(-1px);
+      }
+
+      .cta-button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        opacity: 0.2;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .cta-button:hover::after {
+        transform: translateX(0);
+      }
+
+      /* Enhanced Video Section */
+      .video-section {
+        padding: 5rem 1rem;
+        background: var(--gradient-dark);
+        position: relative;
+      }
+
+      .video-container {
+        max-width: 800px;
+        margin: 0 auto;
+        aspect-ratio: 16/9;
+        background: var(--bg-primary);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-gold);
+        border: 1px solid rgba(212, 175, 55, 0.1);
+      }
+
+      /* Enhanced Features Section */
+      .features {
+        padding: 7rem 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .features::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: var(--gradient-gold);
+        border-radius: 3px;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2.5rem;
+        margin-top: 4rem;
+      }
+
+      .feature-card {
+        background: var(--gradient-dark);
+        padding: 2.5rem;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(212, 175, 55, 0.1);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-gold);
+      }
+
+      .feature-card i {
+        font-size: 2.5rem;
+        background: var(--gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card h3 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      /* Enhanced Pricing Section */
+      .pricing {
+        padding: 7rem 1rem;
+        background: var(--gradient-dark);
+        text-align: center;
+        position: relative;
+      }
+
+      .price-card {
+        max-width: 400px;
+        margin: 3rem auto;
+        background: var(--bg-primary);
+        padding: 3rem;
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .price-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-gold);
+      }
+
+      .price {
+        font-size: 4rem;
+        background: var(--gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 1.5rem 0;
+        font-weight: 800;
+      }
+
+      /* Enhanced Testimonials */
+      .testimonials {
+        padding: 7rem 1rem;
+        position: relative;
+      }
+
+      .testimonial-card {
+        max-width: 600px;
+        margin: 3rem auto;
+        padding: 3rem;
+        background: var(--gradient-dark);
+        border-radius: 20px;
+        position: relative;
+        border: 1px solid rgba(212, 175, 55, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-gold);
+      }
+
+      .testimonial-card::before {
+        content: '"';
+        font-size: 5rem;
+        background: var(--gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: absolute;
+        top: -1rem;
+        left: 1rem;
+        opacity: 0.5;
+      }
+
+      /* Enhanced Footer */
+      footer {
+        background: var(--gradient-dark);
+        padding: 4rem 1rem;
+        text-align: center;
+        border-top: 1px solid rgba(212, 175, 55, 0.1);
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-top: 2.5rem;
+      }
+
+      .social-links a {
+        color: var(--text-secondary);
+        font-size: 1.8rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--accent-gold);
+        transform: translateY(-3px);
+      }
+
+      /* Animation Classes */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 1s ease forwards;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.8rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .price {
+          font-size: 3rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header-cta {
+          padding: 0.6rem 1.2rem;
+          font-size: 0.8rem;
+        }
+
+        .cta-button {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">THE TRAPFATHER</div>
+        <button class="header-cta" onclick="scrollToPricing()">Comprar Ahora</button>
+      </nav>
+    </header>
+    <section class="hero">
+      <div class="hero-content animate-fade-in">
+        <h1>The Trapfather</h1>
+        <p>5 beats de Trap, listos para tu próxima canción</p>
+        <button class="cta-button" onclick="scrollToPricing()">Obtén Tus Beats</button>
+      </div>
+    </section>
+    <section class="video-section">
+      <div class="video-container">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/placeholder" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </section>
+    <section id="features" class="features">
+      <h2>Lo Que Obtienes</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-music"></i>
+          <h3>5 Beats en MP3</h3>
+          <p>Dinámicos y fáciles de usar, lo que significa que puedes integrarlos rápidamente en cualquier proyecto.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-file-contract"></i>
+          <h3>Licencia Comercial</h3>
+          <p>Distribuye y gana en cualquier plataforma, sin límites. ¡Usa los beats como quieras!</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-wave-square"></i>
+          <h3>Entrega Inmediata</h3>
+          <p>Obtén tus beats al instante después de la compra. ¡Comienza a crear sin esperar!</p>
+        </div>
+      </div>
+    </section>
+    <section id="pricing" class="pricing">
+      <h2>Precio Especial</h2>
+      <div class="price-card">
+        <div class="price">$27.00</div>
+        <p>Obtén los 5 beats con derechos comerciales completos</p>
+        <br>
+        <button class="cta-button" onclick="handlePurchase()">Comprar Ahora</button>
+      </div>
+    </section>
+    <section id="testimonials" class="testimonials">
+      <div class="testimonial-card">
+        <p>"Estos beats están a otro nivel."</p>
+        <cite>- Lil Dunn, Recording Artist</cite>
+      </div>
+    </section>
+    <footer>
+      <p>Contacto: info@axlcrvz.com</p>
+      <br>
+      <p>© 2024 <a href="https://axlcrvz.com" style="color:white">axlcrvz.com</a> | Todos los derechos reservados. </p>
+    </footer>
+    <script>
+      // Smooth scroll to pricing section
+      function scrollToPricing() {
+        document.getElementById('pricing').scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+      // Handle purchase button click
+      function handlePurchase() {
+        // Replace with actual payment gateway integration
+        alert('Redirecting to payment gateway...');
+      }
+      // Intersection Observer for fade-in animations
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      // Observe all sections for animation
+      document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+      });
+      // Parallax effect for hero section
+      const hero = document.querySelector('.hero');
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        hero.style.backgroundPositionY = `${scrolled * 0.5}px`;
+      });
+      // Add loading animation for video
+      window.addEventListener('load', () => {
+        const video = document.querySelector('iframe');
+        if (video) {
+          video.style.opacity = '0';
+          setTimeout(() => {
+            video.style.transition = 'opacity 0.5s ease';
+            video.style.opacity = '1';
+          }, 500);
+        }
+      });
+      // Header transparency on scroll
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+          header.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+        } else {
+          header.style.backgroundColor = 'rgba(10, 10, 10, 0.8)';
+        }
+      });
+      // Feature cards hover effect
+      document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-10px)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0)';
+        });
+      });
+      // Price card pulse animation on viewport entry
+      const priceCard = document.querySelector('.price-card');
+      if (priceCard) {
+        observer.observe(priceCard);
+      }
+      // Button click effect
+      document.querySelectorAll('.cta-button, .header-cta').forEach(button => {
+        button.addEventListener('click', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const ripple = document.createElement('span');
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          ripple.className = 'ripple';
+          this.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+      // Prevent form submission refresh
+      document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+        });
+      });
+      // Mobile optimization
+      let touchStartY = 0;
+      let touchEndY = 0;
+      document.addEventListener('touchstart', e => {
+        touchStartY = e.changedTouches[0].screenY;
+      }, false);
+      document.addEventListener('touchend', e => {
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+      }, false);
+
+      function handleSwipe() {
+        const sensitivity = 50;
+        const difference = touchStartY - touchEndY;
+        if (Math.abs(difference) > sensitivity) {
+          if (difference > 0) {
+            // Swipe up - smooth scroll to next section
+            const currentSection = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+            const nextSection = currentSection.nextElementSibling;
+            if (nextSection) {
+              nextSection.scrollIntoView({
+                behavior: 'smooth'
+              });
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
