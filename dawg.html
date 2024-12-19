@@ -288,10 +288,16 @@
       }
 
       .social-links {
-        display: flex;
-        justify-content: center;
+        display: grid;
+        /* Use grid layout */
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        /* Responsive columns */
         gap: 2rem;
+        /* Space between items */
+        justify-items: center;
+        /* Center items within each grid cell */
         margin: 2rem 0;
+        /* Margin above and below the grid */
       }
 
       .disclaimer {
@@ -473,6 +479,7 @@
           item.innerHTML = `
                     
 							
+								
 								
 								<div class="faq-question">
 									<h4>${faq.question}</h4>
