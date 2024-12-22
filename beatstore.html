@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beat Store</title>
+    <style>
+      :root {
+        --primary-color: #ffeb3b;
+        --bg-color: #121212;
+        --text-color: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 2rem 1rem;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        margin-bottom: 2rem;
+      }
+
+      .beats-container {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+
+      .beat-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        transition: transform 0.2s ease;
+      }
+
+      .beat-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .beat-title {
+        margin: 1rem 0;
+        color: var(--primary-color);
+      }
+
+      .filter-container {
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .filter-btn {
+        background-color: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover {
+        background-color: var(--primary-color);
+        color: var(--bg-color);
+      }
+
+      .filter-btn.active {
+        background-color: var(--primary-color);
+        color: var(--bg-color);
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Beat Store</h1>
+      <p class="subtitle">Premium Beats for Artists</p>
+      <div class="filter-container">
+        <button class="filter-btn active" data-genre="all">All</button>
+        <button class="filter-btn" data-genre="trap">Trap</button>
+        <button class="filter-btn" data-genre="hiphop">Hip Hop</button>
+        <button class="filter-btn" data-genre="rnb">R&B</button>
+      </div>
+    </header>
+    <main class="container">
+      <div class="beats-container">
+        <!-- Beat Card Template -->
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/148481?storeId=706&color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/147902?storeId=706&color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/146645?storeId=706&color=%2523ffeb3b"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/146441?storeId=706&color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/146441?storeId=706&color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/146359?color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://soundee.com/embed/track/146180?color=%2523ffeb3b&transparent=1&colorMode=dark"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="https://www.beatstars.com/embed/track/?id=20346374"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662438"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662196"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662196"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662196"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662196"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662223"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662342"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15661430"></iframe>
+        </div>
+        <div class="beat-card" data-genre="trap">
+          <iframe width="100%" height="164" scrolling="no" frameborder="no" allow="autoplay" src="//www.beatstars.com/embed/track/?id=15662379"></iframe>
+        </div>
+        <!-- Add more beat cards here with different genres -->
+      </div>
+    </main>
+    <script>
+      // Filter functionality
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const beatCards = document.querySelectorAll('.beat-card');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active class from all buttons
+          filterBtns.forEach(b => b.classList.remove('active'));
+          // Add active class to clicked button
+          btn.classList.add('active');
+          const genre = btn.dataset.genre;
+          // Filter beats
+          beatCards.forEach(card => {
+            if (genre === 'all' || card.dataset.genre === genre) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+      // Optional: Add smooth scroll behavior
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
