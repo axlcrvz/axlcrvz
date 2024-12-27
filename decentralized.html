@@ -3,163 +3,185 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web3 Twitter Marketing Services</title>
+    <title>Web3 Twitter Growth Strategy</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
       .gradient-bg {
-        background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
       }
 
       .blockchain-pattern {
-        background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
-        background-size: 24px 24px;
+        background-image:
+          radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0),
+          linear-gradient(45deg, rgba(59, 130, 246, 0.1) 25%, transparent 25%, transparent 75%, rgba(59, 130, 246, 0.1) 75%);
+        background-size: 24px 24px, 48px 48px;
+        animation: patternFloat 20s linear infinite;
+      }
+
+      @keyframes patternFloat {
+        0% {
+          background-position: 0 0, 0 0;
+        }
+
+        100% {
+          background-position: 24px 24px, 48px 48px;
+        }
       }
 
       .card-hover {
-        transition: transform 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .card-hover:hover {
-        transform: translateY(-5px);
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      }
+
+      .floating-stats {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+
+        100% {
+          transform: translateY(0px);
+        }
       }
 
       .glass-effect {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.8);
         backdrop-filter: blur(10px);
+      }
+
+      .shine-effect {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shine-effect::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 100%);
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) rotate(45deg);
+        }
+
+        100% {
+          transform: translateX(100%) rotate(45deg);
+        }
       }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
-    <!-- Header -->
     <header class="fixed w-full z-50 glass-effect">
       <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold">Decentralized MKT</div>
-        <a href="https://t.me/axlcrvz" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-full">Get Started</a>
+        <div class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"> Decentralized MKT </div>
+        <a href="https://forms.gle/tMyMGzhPRW45GYJAA" class="shine-effect bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-full transform transition hover:scale-105"> Get Free Audit </a>
       </nav>
     </header>
-    <!-- Hero Section -->
-    <section id="home" class="gradient-bg blockchain-pattern min-h-screen flex items-center pt-20">
+    <section class="gradient-bg blockchain-pattern min-h-screen flex items-center pt-20">
       <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-1 gap-12 items-center">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 class="text-5xl font-bold mb-6">Supercharge Your Web3 Presence on Twitter</h1>
-            <p class="text-xl mb-8">We help Web3 developers grow their audience, build communities, and launch successful campaigns with tailored Twitter marketing strategies.</p>
-            <div class="flex space-x-4 mb-8">
-              <div class="text-center">
-                <div class="text-3xl font-bold text-blue-400">10+</div>
-                <div class="text-sm">Successful Campaigns</div>
+            <h1 class="text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"> Level Up Your Twitter Game </h1>
+            <p class="text-xl mb-8 text-gray-300"> Unlock explosive growth with our data-driven strategies. Get a FREE Twitter audit (worth $150) today! </p>
+            <div class="grid grid-cols-3 gap-4 mb-8">
+              <div class="floating-stats text-center p-4 bg-gray-800 rounded-lg">
+                <div class="text-4xl font-bold text-blue-400">150%</div>
+                <div class="text-sm">Avg. Growth</div>
               </div>
-              <div class="text-center">
-                <div class="text-3xl font-bold text-blue-400">20%</div>
-                <div class="text-sm">Avg. Engagement Increase</div>
+              <div class="floating-stats text-center p-4 bg-gray-800 rounded-lg" style="animation-delay: 1s">
+                <div class="text-4xl font-bold text-purple-400">10+</div>
+                <div class="text-sm">Projects</div>
+              </div>
+              <div class="floating-stats text-center p-4 bg-gray-800 rounded-lg" style="animation-delay: 2s">
+                <div class="text-4xl font-bold text-blue-400">200K+</div>
+                <div class="text-sm">Interactions</div>
               </div>
             </div>
-            <a href="https://t.me/axlcrvz" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full text-lg">Start Growing</a>
+            <a href="https://forms.gle/tMyMGzhPRW45GYJAA" class="shine-effect inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-bold transform transition hover:scale-105"> Get Your Free Twitter Audit </a>
+          </div>
+          <div class="hidden md:block">
+            <img src="/api/placeholder/500/500" alt="Twitter Analytics Dashboard" class="rounded-lg shadow-2xl transform -rotate-6 hover:rotate-0 transition-transform duration-500" />
           </div>
         </div>
       </div>
     </section>
-    <!-- Why Choose Us -->
-    <section id="features" class="py-20 bg-gray-800">
+    <!-- Services section with enhanced visuals -->
+    <section class="py-20 bg-gray-800 relative overflow-hidden">
       <div class="container mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center mb-16">Why Web3 Developers Trust Us</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="p-6 bg-gray-700 rounded-lg card-hover">
-            <div class="text-blue-400 text-4xl mb-4">🌐</div>
-            <h3 class="text-xl font-bold mb-4">Community First Approach</h3>
-            <p>Strategies tailored for blockchain-native audiences, ensuring authentic engagement and growth.</p>
+        <h2 class="text-4xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"> Our Growth Arsenal </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="p-8 bg-gray-900 rounded-xl card-hover border border-gray-700">
+            <div class="text-5xl mb-4">🎯</div>
+            <h3 class="text-xl font-bold mb-4 text-blue-400">Profile Optimization</h3>
+            <p>Create a professional and engaging Twitter presence that attracts your target audience.</p>
           </div>
-          <div class="p-6 bg-gray-700 rounded-lg card-hover">
-            <div class="text-blue-400 text-4xl mb-4">📊</div>
-            <h3 class="text-xl font-bold mb-4">Data-Driven Insights</h3>
-            <p>Leverage advanced analytics to track, analyze, and optimize your Twitter performance.</p>
+          <div class="p-8 bg-gray-900 rounded-xl card-hover border border-gray-700">
+            <div class="text-5xl mb-4">📈</div>
+            <h3 class="text-xl font-bold mb-4 text-purple-400">Content Creation</h3>
+            <p>Expert creation of threads, tweets, and graphics that resonate with your community.</p>
           </div>
-          <div class="p-6 bg-gray-700 rounded-lg card-hover">
-            <div class="text-blue-400 text-4xl mb-4">🚀</div>
-            <h3 class="text-xl font-bold mb-4">Proven Success</h3>
-            <p>Our campaigns consistently deliver measurable results and ROI for Web3 projects.</p>
+          <div class="p-8 bg-gray-900 rounded-xl card-hover border border-gray-700">
+            <div class="text-5xl mb-4">💬</div>
+            <h3 class="text-xl font-bold mb-4 text-blue-400">Community Engagement</h3>
+            <p>Build and nurture an active, loyal following through strategic engagement tactics.</p>
           </div>
-        </div>
-      </div>
-    </section>
-    <!-- Services -->
-    <section id="services" class="py-20">
-      <div class="container mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center mb-16">Tailored Services to Grow Your Web3 Project</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="p-6 bg-gray-800 rounded-lg card-hover">
-            <h3 class="text-xl font-bold mb-4">Profile Optimization</h3>
-            <p class="mb-4">Create a professional and engaging Twitter presence that attracts your target audience.</p>
-            <a href="#cta" class="text-blue-400 hover:text-blue-300">Learn More →</a>
-          </div>
-          <div class="p-6 bg-gray-800 rounded-lg card-hover">
-            <h3 class="text-xl font-bold mb-4">Content Creation</h3>
-            <p class="mb-4">Expert creation of threads, tweets, and graphics that resonate with the Web3 community.</p>
-            <a href="#cta" class="text-blue-400 hover:text-blue-300">Learn More →</a>
-          </div>
-          <div class="p-6 bg-gray-800 rounded-lg card-hover">
-            <h3 class="text-xl font-bold mb-4">Community Engagement</h3>
-            <p class="mb-4">Build and nurture an active, loyal following through strategic engagement tactics.</p>
-            <a href="#cta" class="text-blue-400 hover:text-blue-300">Learn More →</a>
-          </div>
-          <div class="p-6 bg-gray-800 rounded-lg card-hover">
-            <h3 class="text-xl font-bold mb-4">Launch Campaigns</h3>
-            <p class="mb-4">Strategic promotion of your token or NFT drops for maximum impact and reach.</p>
-            <a href="#cta" class="text-blue-400 hover:text-blue-300">Learn More →</a>
+          <div class="p-8 bg-gray-900 rounded-xl card-hover border border-gray-700">
+            <div class="text-5xl mb-4">🚀</div>
+            <h3 class="text-xl font-bold mb-4 text-blue-400">Launch Campaigns</h3>
+            <p>Strategic promotion of your product or service for maximum impact and reach.</p>
           </div>
         </div>
       </div>
     </section>
-    <!-- Pricing -->
-    <!-- CTA -->
-    <section id="cta" class="py-20">
+    <section class="py-20 gradient-bg blockchain-pattern">
       <div class="container mx-auto px-6">
         <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-4xl font-bold mb-8">Ready to Scale Your Web3 Project?</h2>
-          <p class="text-xl mb-12">Let's craft a Twitter marketing strategy tailored to your project.</p>
-          <a href="https://t.me/axlcrvz" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full">Get Your Free Consultation</a>
+          <h2 class="text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"> Ready for Twitter Domination? </h2>
+          <p class="text-xl mb-12 text-gray-300"> Get your FREE Twitter audit (Worth $150) and unlock your growth potential today! </p>
+          <a href="https://forms.gle/tMyMGzhPRW45GYJAA" class="shine-effect inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-bold transform transition hover:scale-105"> Claim Your Free Audit Now </a>
         </div>
       </div>
     </section>
-    <!-- Footer -->
     <footer class="bg-gray-800 py-12">
-      <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8">
-          <div>
-            <h4 class="text-xl font-bold mb-4">Contact</h4>
-            <ul class="space-y-2">
-              <li>Email: info@axlcrvz.com</li>
-              <li>Twitter: @axlcrvz</li>
-            </ul>
-          </div>
-          <div></div>
-        </div>
-        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-          <p>© 2024 Decentrilized Marketing. All rights reserved.</p>
-        </div>
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-gray-400">© 2024 Decentralized Marketing. All rights reserved.</p>
       </div>
     </footer>
-    <script>
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
-      });
-      // Scroll reveal animation
-      window.addEventListener('scroll', function() {
-        const cards = document.querySelectorAll('.card-hover');
-        cards.forEach(card => {
-          const cardTop = card.getBoundingClientRect().top;
-          if (cardTop < window.innerHeight) {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }
-        });
-      });
-    </script>
   </body>
 </html>
