@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Beats - 24 Hour Delivery</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          box-shadow: 0 0 5px #ff6b6b;
+        }
+
+        50% {
+          box-shadow: 0 0 20px #ff6b6b;
+        }
+
+        100% {
+          box-shadow: 0 0 5px #ff6b6b;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.6;
+        color: #ffffff;
+        background: #202020;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(-45deg, #ff6b6b, #4ecdc4, #45b7d1);
+        background-size: 400% 400%;
+        animation: gradientFlow 15s ease infinite;
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+      }
+
+      header h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: -1px;
+      }
+
+      header p {
+        font-size: 1.6rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        font-weight: 400;
+      }
+
+      /* Process Section */
+      .process-section {
+        padding: 100px 0;
+        background: #202020;
+        position: relative;
+      }
+
+      .process-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/api/placeholder/1200/800') center/cover;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      .process-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .process-step {
+        text-align: center;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .process-step:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .step-icon {
+        font-size: 3.5rem;
+        margin-bottom: 25px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Form Section */
+      .form-section {
+        padding: 100px 0;
+        background: #252525;
+      }
+
+      .beat-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 50px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #4ecdc4;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        font-size: 1rem;
+        color: white;
+        transition: all 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #4ecdc4;
+        outline: none;
+        background: #9b9b9b;
+      }
+
+      textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        animation: pulseGlow 2s infinite;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        backdrop-filter: blur(8px);
+      }
+
+      .modal-content {
+        position: relative;
+        background: #252525;
+        padding: 50px;
+        border-radius: 20px;
+        max-width: 500px;
+        margin: 100px auto;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 28px;
+        cursor: pointer;
+        color: #4ecdc4;
+        transition: color 0.3s;
+      }
+
+      .close-btn:hover {
+        color: #ff6b6b;
+      }
+
+      /* Footer */
+      footer {
+        background: #181818;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 30px 0;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2.5rem;
+        }
+
+        .process-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .beat-form {
+          padding: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Custom Beats Made Just For You</h1>
+        <p>Get a personalized, high-quality beat tailored to your vision in less than 24 hours</p>
+      </div>
+    </header>
+    <main>
+      <section class="process-section">
+        <div class="container">
+          <div class="process-grid">
+            <div class="process-step">
+              <div class="step-icon">✍</div>
+              <h3>Describe Your Vision</h3>
+              <p>Tell me about the vibe, genre, and mood you're looking for</p>
+            </div>
+            <div class="process-step">
+              <div class="step-icon">🎵</div>
+              <h3>Professional Production</h3>
+              <p>My team crafts your beat with industry-standard quality</p>
+            </div>
+            <div class="process-step">
+              <div class="step-icon">⚡</div>
+              <h3>24-Hour Delivery</h3>
+              <p>Receive your custom beat within 24 hours, ready to download</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="form-section">
+        <div class="container">
+          <form class="beat-form" id="beatForm">
+            <div class="form-group">
+              <label for="genre">Genre</label>
+              <select id="genre" name="genre" required>
+                <option value="">Select a genre</option>
+                <option value="trap">Trap</option>
+                <option value="hiphop">Hip Hop</option>
+                <option value="rnb">R&B</option>
+                <option value="pop">Pop</option>
+                <option value="drill">Drill</option>
+                <option value="New Jazz">New Jazz</option>
+                <option value="Detroit">Detroit</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="mood">Mood</label>
+              <select id="mood" name="mood" required>
+                <option value="">Select a mood</option>
+                <option value="energetic">Energetic</option>
+                <option value="dark">Dark</option>
+                <option value="melodic">Melodic</option>
+                <option value="chill">Chill</option>
+                <option value="aggressive">Aggressive</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Description of Your Vision</label>
+              <textarea id="description" name="description" placeholder="Describe the sound you're looking for..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="Where should we send your beat?" required>
+            </div>
+            <button type="submit" class="submit-btn">Get Your Custom Beat</button>
+          </form>
+        </div>
+      </section>
+      <div class="modal" id="successModal">
+        <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h2>🎵 Order Received!</h2>
+          <p>We'll start crafting your custom beat right away. Expect delivery within 24 hours!</p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 <a href="https://axlcrvz.com/" style="color:lightgrey; text-decoration:none">axlcrvz.com</a>. All rights reserved. </p>
+      </div>
+    </footer>
+    <script>
+      const form = document.getElementById('beatForm');
+      const modal = document.getElementById('successModal');
+      const closeBtn = document.querySelector('.close-btn');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Get form data
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+        // Send to Google Sheets
+        fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+          modal.style.display = 'block';
+          form.reset();
+        }).catch(error => {
+          console.error('Error:', error);
+          alert('There was an error submitting your order. Please try again.');
+        });
+      });
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    </script>
+  </body>
+</html>
