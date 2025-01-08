@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESTI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .hero-image {
+            height: 90vh;
+            object-fit: cover;
+            filter: brightness(0.9);
+        }
+
+        .order-btn {
+            font-size: 13px;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .product {
+            transition: opacity 0.3s ease;
+        }
+
+        .product:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 px-6 py-8 flex justify-between items-center bg-black/95">
+        <a href="#" class="text-xl tracking-widest">PRESTI</a>
+        <div class="flex gap-12">
+            <a href="#shop" class="nav-link">SHOP</a>
+            <a href="https://wa.me/1234567890" class="nav-link order-btn px-6 py-2">ORDER NOW</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative">
+        <img src="/api/placeholder/2000/1200" alt="Hero" class="w-full hero-image">
+        <div class="absolute inset-0 flex items-center justify-center text-center">
+            <div>
+                <h1 class="text-6xl md:text-8xl mb-6 font-light tracking-wide">PRESTI</h1>
+                <p class="text-sm tracking-[0.3em] uppercase">Italian Luxury Delivered</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="shop" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-1">
+            <a href="https://wa.me/1234567890" class="product block">
+                <img src="/api/placeholder/800/1000" alt="Product 1" class="w-full">
+                <div class="py-4">
+                    <p class="text-xs tracking-widest mb-1">TAILORED SUIT</p>
+                    <p class="text-xs text-gray-400">Contact for pricing</p>
+                </div>
+            </a>
+            <a href="https://wa.me/1234567890" class="product block">
+                <img src="/api/placeholder/800/1000" alt="Product 2" class="w-full">
+                <div class="py-4">
+                    <p class="text-xs tracking-widest mb-1">EVENING COLLECTION</p>
+                    <p class="text-xs text-gray-400">Contact for pricing</p>
+                </div>
+            </a>
+            <a href="https://wa.me/1234567890" class="product block">
+                <img src="/api/placeholder/800/1000" alt="Product 3" class="w-full">
+                <div class="py-4">
+                    <p class="text-xs tracking-widest mb-1">LEATHER ESSENTIALS</p>
+                    <p class="text-xs text-gray-400">Contact for pricing</p>
+                </div>
+            </a>
+            <a href="https://wa.me/1234567890" class="product block">
+                <img src="/api/placeholder/800/1000" alt="Product 4" class="w-full">
+                <div class="py-4">
+                    <p class="text-xs tracking-widest mb-1">ACCESSORIES</p>
+                    <p class="text-xs text-gray-400">Contact for pricing</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="py-24 px-6 border-t border-white/10">
+        <div class="max-w-lg mx-auto text-center">
+            <p class="text-sm tracking-widest mb-8">ORDER VIA WHATSAPP</p>
+            <a href="https://wa.me/1234567890" class="order-btn inline-block px-12 py-4">
+                CONTACT US
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-white/10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <p class="text-xs text-gray-500">© 2025 PRESTI</p>
+            <a href="https://wa.me/1234567890" class="text-xs text-gray-500">+1 234 567 890</a>
+        </div>
+    </footer>
+</body>
+</html>
