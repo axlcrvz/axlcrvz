@@ -131,65 +131,87 @@
         <div class="menu-icon">☰</div>
     </div>
 
-    <nav class="nav">
-        <div class="nav-item active">T-shirt</div>
-        <div class="nav-item">Shoe</div>
-        <div class="nav-item">Pants</div>
-    </nav>
-
-    <div class="search-bar">
-        <span>🔍</span>
-        <input type="text" placeholder="search...">
+<nav class="nav">
+    <div class="nav-item active">All</div>
+    <div class="nav-item">T-shirt</div>
+    <div class="nav-item">Shoe</div>
+    <div class="nav-item">Pants</div>
+</nav>
+<div class="products-grid">
+    <!-- T-shirts -->
+    <div class="product-card" data-category="t-shirt">
+        <div class="product-image"></div>
+        <div class="product-title">Black Essential Tee</div>
+        <div class="product-price">$12</div>
     </div>
-
-    <div class="products-grid">
-        <div class="product-card">
-            <div class="product-image"></div>
-            <div class="product-title">Black Essential Tee</div>
-            <div class="product-price">$12</div>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <div class="product-title">Graphic Print Tee</div>
-            <div class="product-price">$15</div>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <div class="product-title">Urban Style Tee</div>
-            <div class="product-price">$12</div>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <div class="product-title">Street Wear Tee</div>
-            <div class="product-price">$15</div>
-        </div>
+    <div class="product-card" data-category="t-shirt">
+        <div class="product-image"></div>
+        <div class="product-title">Graphic Print Tee</div>
+        <div class="product-price">$15</div>
     </div>
+    <!-- Example Shoes -->
+    <div class="product-card" data-category="shoe">
+        <div class="product-image"></div>
+        <div class="product-title">Urban Sneakers</div>
+        <div class="product-price">$45</div>
+    </div>
+    <!-- Example Pants -->
+    <div class="product-card" data-category="pants">
+        <div class="product-image"></div>
+        <div class="product-title">Classic Black Pants</div>
+        <div class="product-price">$35</div>
+    </div>
+</div>
 
-    <script>
-        // Navigation functionality
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                navItems.forEach(nav => nav.classList.remove('active'));
-                item.classList.add('active');
-            });
-        });
+<script>
+// Navigation functionality
+const navItems = document.querySelectorAll('.nav-item');
+const products = document.querySelectorAll('.product-card');
 
-        // Search functionality
-        const searchInput = document.querySelector('.search-bar input');
-        const products = document.querySelectorAll('.product-card');
+function filterProducts(category) {
+    products.forEach(product => {
+        if (category.toLowerCase() === 'all') {
+            product.style.display = 'block';
+        } else {
+            const matches = product.dataset.category.toLowerCase() === category.toLowerCase();
+            product.style.display = matches ? 'block' : 'none';
+        }
+    });
+}
+
+// Initialize with "All" category
+filterProducts('all');
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        // Handle active state
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
         
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            products.forEach(product => {
-                const title = product.querySelector('.product-title').textContent.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        });
-    </script>
+        // Filter products based on category
+        const category = item.textContent;
+        filterProducts(category);
+    });
+});
+
+// Search functionality
+const searchInput = document.querySelector('.search-bar input');
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const currentCategory = document.querySelector('.nav-item.active').textContent;
+    
+    products.forEach(product => {
+        const title = product.querySelector('.product-title').textContent.toLowerCase();
+        const matchesSearch = title.includes(searchTerm);
+        
+        if (currentCategory.toLowerCase() === 'all') {
+            product.style.display = matchesSearch ? 'block' : 'none';
+        } else {
+            const matchesCategory = currentCategory.toLowerCase() === product.dataset.category.toLowerCase();
+            product.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
+        }
+    });
+});
+</script>
 </body>
 </html>
