@@ -230,6 +230,9 @@
         padding: 4rem 2rem;
         column-count: 1;
         column-gap: 2rem;
+        align-items: center;
+        margin-right: auto;
+        margin-left: auto;
       }
 
       .footer-content {
@@ -237,7 +240,32 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+      }
+
+      .footer-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul li a {
+        color: #999;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 0.95rem;
+      }
+
+      .footer-section ul li a:hover {
+        color: #fff;
       }
 
       .social-links {
@@ -271,12 +299,11 @@
         }
 
         .footer-content {
-          flex-direction: column;
-          /* Stack items vertically */
-          align-items: center;
-          /* Align items to the start */
-          column-gap: 1rem;
-          /* Reduced gap for mobile */
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 40px;
         }
 
         .social-links {
@@ -319,6 +346,10 @@
         .products-grid {
           grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
+
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       .menu-icon {
@@ -333,6 +364,12 @@
       .menu-icon svg {
         width: 24px;
         height: 24px;
+      }
+
+      @media (max-width: 468px) {
+        .footer-content {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 768px) {
@@ -427,13 +464,25 @@
     </section>
     <footer>
       <div class="footer-content">
-        <div class="social-links">
-          <a href="#">Instagram</a>
-          <a href="#">Twitter</a>
-          <a href="#">Facebook</a>
+        <div class="footer-section">
+          <h3>Connect</h3>
+          <ul>
+            <li>
+              <a href="#">Instagram</a>
+            </li>
+            <li>
+              <a href="#">Twitter</a>
+            </li>
+            <li>
+              <a href="#">Facebook</a>
+            </li>
+            <li>
+              <a href="#">Newsletter</a>
+            </li>
+          </ul>
         </div>
-        <div class="footer-text"> © 2025 Presti. All rights reserved. </div>
       </div>
+      <div class="footer-text"> © 2025 Presti. All rights reserved. </div>
     </footer>
     <script>
       // Smooth scrolling for anchor links
