@@ -228,18 +228,23 @@
       footer {
         background-color: #000000;
         padding: 4rem 2rem;
-        column-count: 1;
-        column-gap: 2rem;
-        align-items: center;
-        margin-right: auto;
-        margin-left: auto;
+        text-align: center;
+        /* Center all text content */
       }
 
       .footer-content {
         max-width: 1400px;
         margin: 0 auto;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        /* Stack items vertically */
+        align-items: center;
+        /* Center items horizontally */
+        justify-content: center;
+      }
+
+      .footer-section {
+        margin-bottom: 2rem;
       }
 
       .footer-section h3 {
@@ -251,6 +256,7 @@
 
       .footer-section ul {
         list-style: none;
+        padding: 0;
       }
 
       .footer-section ul li {
@@ -268,22 +274,6 @@
         color: #fff;
       }
 
-      .social-links {
-        display: flex;
-        gap: 2rem;
-      }
-
-      .social-links a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: color 0.3s;
-      }
-
-      .social-links a:hover {
-        color: #888;
-      }
-
       .footer-text {
         color: #666;
         margin-top: 15px;
@@ -293,30 +283,16 @@
       @media (max-width: 768px) {
         footer {
           padding: 6rem 1rem;
-          /* Increased vertical padding */
-          column-gap: 1rem;
-          /* Reduced gap for mobile */
         }
 
         .footer-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
           gap: 40px;
         }
+      }
 
-        .social-links {
-          flex-direction: flex;
-          /* Stack social links vertically */
-          gap: 1rem;
-          /* Reduced gap between social links */
-        }
-
-        .social-links a,
-        .footer-text {
-          font-size: 1rem;
-          /* Adjusted font size for better readability */
+      @media (max-width: 468px) {
+        .footer-content {
+          width: 100%;
         }
       }
 
