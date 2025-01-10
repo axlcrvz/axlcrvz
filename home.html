@@ -84,73 +84,64 @@
         margin: 0 auto;
       }
 
-      .categories {
-        margin: 2rem 0;
-        border-radius: 15px;
-        overflow: hidden;
-        background: #111;
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
       }
 
-      .tab-buttons {
-        display: flex;
-        border-bottom: 1px solid #222;
-      }
-
-      .tab-button {
-        padding: 1rem 2rem;
-        background: none;
-        border: none;
-        color: #888;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 1rem;
-      }
-
-      .tab-button.active {
-        color: #fff;
-        background: #222;
-      }
-
-      .tab-content {
-        display: none;
-        padding: 2rem;
-        animation: fadeIn 0.5s ease-in;
-      }
-
-      .tab-content.active {
+      .products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
       }
 
       .product-card {
-        background: #161616;
-        border-radius: 12px;
-        padding: 1.5rem;
-        transition: transform 0.3s;
+        background-color: #1a1a1a;
+        border-radius: 16px;
+        padding: 20px;
         cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none
       }
 
       .product-card:hover {
         transform: translateY(-5px);
-        background: #1a1a1a;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
 
       .product-image {
         width: 100%;
         height: 200px;
-        background: #222;
+        object-fit: cover;
         border-radius: 8px;
-        margin-bottom: 1rem;
+        margin-bottom: 12px;
+        background-color: #333;
       }
 
       .product-title {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        color: #999;
+        margin-bottom: 8px;
       }
 
       .product-price {
-        color: #888;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .view-all-btn {
+        display: block;
+        width: fit-content;
+        margin: 2rem auto;
+        padding: 1rem 2rem;
+        background-color: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
       }
 
       footer {
@@ -296,92 +287,45 @@
         <h1>Be the Brand Everyone Remembers</h1>
         <p>Creative solutions to turn ideas into results.</p>
       </section>
-      <section class="categories">
-        <div class="tab-buttons">
-          <button class="tab-button active" data-tab="all">All Products</button>
-          <button class="tab-button" data-tab="templates">Templates</button>
-          <button class="tab-button" data-tab="plugins">Plugins</button>
-          <button class="tab-button" data-tab="assets">Assets</button>
+      <h2 class="section-title">Featured Products</h2>
+      <div class="products-grid">
+        <a href="https://axlcrvz.com/beatstore" class="product-card" data-category="beats">
+          <img src="/images/sneaker1.png" class="product-image" alt="Beats">
+          <div class="product-title">Beats with commercial rights</div>
+          <div class="product-price">$12</div>
+        </a>
+        <a href="https://whop.com/beat-monetization-mastery/" class="product-card" data-category="mkt">
+          <img src="/images/sneaker2.png" class="product-image" alt="BMM">
+          <div class="product-title">Turn your beats profitable with the BMM</div>
+          <div class="product-price">$15</div>
+        </a>
+        <a href="https://t.me/+GlKHSBPJs-Q0MDkx" class="product-card" data-category="loops">
+          <img src="/images/sneaker3.png" class="product-image" alt="Loops">
+          <div class="product-title">Be the first to get industry-ready loops for your beats</div>
+          <div class="product-price">$45</div>
+        </a>
+        <div class="product-card" data-category="pants">
+          <img src="/images/sneaker2.png" class="product-image" alt="ASAP Rocky T-shirt">
+          <div class="product-title">Classic Black Pants</div>
+          <div class="product-price">$35</div>
         </div>
-        <div class="tab-content active" id="all">
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">Premium Template</h3>
-            <p class="product-price">$49.99</p>
-          </div>
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">Pro Plugin Suite</h3>
-            <p class="product-price">$79.99</p>
-          </div>
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">Icon Pack</h3>
-            <p class="product-price">$29.99</p>
-          </div>
-        </div>
-        <div class="tab-content" id="templates">
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">Website Template</h3>
-            <p class="product-price">$39.99</p>
-          </div>
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">App Template</h3>
-            <p class="product-price">$59.99</p>
-          </div>
-        </div>
-        <div class="tab-content" id="plugins">
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">SEO Plugin</h3>
-            <p class="product-price">$89.99</p>
-          </div>
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">Analytics Plugin</h3>
-            <p class="product-price">$69.99</p>
-          </div>
-        </div>
-        <div class="tab-content" id="assets">
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">3D Assets Pack</h3>
-            <p class="product-price">$119.99</p>
-          </div>
-          <div class="product-card">
-            <div class="product-image"></div>
-            <h3 class="product-title">UI Kit</h3>
-            <p class="product-price">$49.99</p>
-          </div>
-        </div>
-      </section>
+      </div>
+      <button class="view-all-btn">View All Products</button>
       <section class="partners-section">
         <div class="partners-title">
-          <h2>Our Trusted Partners</h2>
+          <h2>Trusted Partners</h2>
           <p>Collaborating with industry leaders to deliver excellence</p>
         </div>
         <div class="partners-grid">
           <div class="partner-card">
-            <div class="partner-logo">T1</div>
-            <h3 class="partner-name">Tech One</h3>
-            <p class="partner-description">Leading innovation in cloud solutions and digital infrastructure</p>
+            <div class="partner-logo">MD</div>
+            <h3 class="partner-name">Mente Digital Qro</h3>
+            <p class="partner-description">Leading digital marketing agency specializing in social media content creation to enhance brand reach. </p>
           </div>
           <div class="partner-card">
-            <div class="partner-logo">DS</div>
-            <h3 class="partner-name">Digital Systems</h3>
-            <p class="partner-description">Enterprise software solutions for modern businesses</p>
-          </div>
-          <div class="partner-card">
-            <div class="partner-logo">CP</div>
-            <h3 class="partner-name">Creative Pro</h3>
-            <p class="partner-description">Premium design tools and creative resources</p>
-          </div>
-          <div class="partner-card">
-            <div class="partner-logo">IX</div>
-            <h3 class="partner-name">InnovateX</h3>
-            <p class="partner-description">Next-generation development frameworks</p>
+            <div class="partner-logo">MT</div>
+            <h3 class="partner-name">Mr Taco</h3>
+            <p class="partner-description">Since 1982, Mr. Taco has been delighting patrons with authentic Mexican cuisine and warm hospitality.</p>
           </div>
         </div>
       </section>
@@ -389,25 +333,25 @@
     <footer>
       <div class="footer-content">
         <div class="footer-section">
-          <h3>About Us</h3>
-          <p>Premium digital products for creative professionals.</p>
+          <h3>About Me</h3>
+          <p>Music producer and Digital MKT graduate with over 7 years of experience in the music industry.</p>
         </div>
         <div class="footer-section">
           <h3>Quick Links</h3>
           <a href="#products">Products</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#support">Support</a>
         </div>
         <div class="footer-section">
           <h3>Contact</h3>
-          <p>contact@digital.com</p>
-          <p>+1 (555) 123-4567</p>
+          <a href="mailto:info@axlcrvz.com">info@axlcrvz.com</a>
+          <a href="#Telegram">Telegram</a>
         </div>
         <div class="footer-section">
-          <h3>Follow Us</h3>
-          <a href="#twitter">Twitter</a>
-          <a href="#instagram">Instagram</a>
+          <h3>Follow Me</h3>
+          <a href="#twitter">Instagram</a>
+          <a href="#instagram">Twitter</a>
           <a href="#linkedin">LinkedIn</a>
+          <a href="#linkedin">Youtube</a>
+          <a href="#linkedin">Tiktok</a>
         </div>
       </div>
     </footer>
