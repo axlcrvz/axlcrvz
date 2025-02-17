@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Lab - Producer Community</title>
+    <title>Home - @axlcrvz</title>
     <style>
       * {
         margin: 0;
@@ -12,9 +12,16 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
 
+      :root {
+        --primary-color: #6b21a8;
+        --accent-color: #EFEBBE;
+        /* Changed to a different pink shade */
+      }
+
       body {
         background-color: #000;
         color: #fff;
+        overflow-x: hidden;
       }
 
       section {
@@ -22,61 +29,111 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 2rem;
+        padding: 4rem 2rem;
         position: relative;
-        overflow: hidden;
+      }
+
+      section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, rgba(107, 33, 168, 0.1) 0%, transparent 70%);
+        pointer-events: none;
       }
 
       .content {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 0 auto;
         text-align: center;
+        position: relative;
+        z-index: 1;
       }
 
       h1 {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        line-height: 1.2;
-        background: linear-gradient(to right, #fff, #888);
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+        background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        letter-spacing: -1px;
       }
 
       p {
-        font-size: 1.5rem;
-        color: #888;
+        font-size: clamp(1.25rem, 2vw, 1.75rem);
+        color: #a3a3a3;
         line-height: 1.6;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        max-width: 400px;
-        margin: 0 auto;
+      .gradient-border {
+        border-radius: 16px;
+        position: relative;
+        margin: 2rem auto;
       }
 
-      input {
-        padding: 1rem;
-        border: 1px solid #333;
-        background: #111;
-        color: #fff;
-        border-radius: 8px;
-        font-size: 1rem;
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        border-radius: 18px;
+        z-index: -1;
+        animation: borderGlow 4s ease-in-out infinite;
       }
 
-      input:focus {
-        outline: none;
-        border-color: #666;
+      @keyframes borderGlow {
+
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      @keyframes float {
+
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .floating-element {
+        animation: float 6s ease-in-out infinite;
       }
 
       .section-divider {
         width: 100%;
         height: 1px;
-        background: linear-gradient(to right, transparent, #333, transparent);
-        margin: 2rem 0;
+        background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+        margin: 3rem 0;
+        opacity: 0.3;
+      }
+
+      .cta-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
       }
 
       .cta-button {
@@ -85,33 +142,51 @@
         font-size: 1.2rem;
         font-weight: 600;
         color: #000;
-        background: #fff;
+        background: linear-gradient(135deg, #fff, var(--accent-color));
         border: none;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
       .cta-button:hover {
-        background: #888;
-        transform: translateY(-2px);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(236, 72, 153, 0.2);
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      iframe {
+        border-radius: 16px;
+        transition: transform 0.3s ease;
       }
 
-      section>* {
-        animation: fadeIn 1s ease-out;
+      iframe:hover {
+        transform: scale(1.02);
+      }
+
+      #problem {
+        background: linear-gradient(to bottom, rgba(107, 33, 168, 0.1), transparent);
+      }
+
+      #solution {
+        background: linear-gradient(to top, rgba(107, 33, 168, 0.1), transparent);
+      }
+
+      .mouse-parallax {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .circle {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        filter: blur(100px);
       }
     </style>
     <!-- Google tag (gtag.js) -->
@@ -126,56 +201,78 @@
       gtag('config', 'G-FD5EF31N8F');
     </script>
     <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1015020970673030');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1015020970673030&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+    <script>
+      ! function(f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function() {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1015020970673030');
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1015020970673030&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <section id="problem">
+      <div class="mouse-parallax circle" style="top: 10%; left: 10%;"></div>
       <div class="content">
-        <h1>Sé la marca que todos recuerden</h1>
-        <p>Soluciones creativas para transformar ideas en resultados. </p>
+        <h1 class="floating-element">Sé la marca que todos recuerden</h1>
+        <p>Transforma tu visión en realidad con sonidos listos para plataformas de streaming.</p>
       </div>
     </section>
     <section id="cta">
+      <div class="mouse-parallax circle" style="top: 60%; right: 10%;"></div>
       <div class="content">
         <h1>Beats</h1>
-        <p>Mis beats más recientes, listos para todas las plataformas de streaming.</p>
-        <iframe src="https://706.soundee.com/tracks" width="100%" height="500" style="max-width:1200px; border-radius:12px;"> -- none -- </iframe>
+        <p>Obtén mi beat más reciente, licencia comercial incluida.</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/3q439iP3JX0?si=lIwXSloWuGtUX3MT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="cta-container">
+          <a href="https://snd.ee/btpk" class="cta-button">Comprar</a>
+        </div>
       </div>
     </section>
     <section id="solution">
+      <div class="mouse-parallax circle" style="top: 30%; left: 50%;"></div>
       <div class="content">
         <h1>Créditos</h1>
-        <p>Algunas canciones grabadas con mis beats a lo largo de los años</p>
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4v0XbpJbXsgPXzanIOo1yQ?utm_source=generator&theme=0" width="100%" height="700" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <p>Únete a la lista de artistas que han elegido beats de calidad.</p>
+        <iframe style="border: none;" src="https://open.spotify.com/embed/playlist/4v0XbpJbXsgPXzanIOo1yQ?utm_source=generator&theme=0" width="100%" height="700" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </section>
-
     <section id="signup">
+      <div class="mouse-parallax circle" style="bottom: 20%; right: 30%;"></div>
       <div class="content">
         <h1>Únete al Círculo Cerrado</h1>
-        <p>Desbloquea más de 300 beats, samples y secretos de marketing para posicionar tu marca frente a la audiencia correcta.</p>
-        <form id="email-form">
-          <iframe src="https://embeds.beehiiv.com/1ea7de94-3cf4-473a-b119-cffe3b147d7a?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent;"></iframe>
-        </form>
+        <p>Obtén acceso exclusivo a más de 300 beats, samples y estrategias de marketing para posicionar tu marca frente a la audiencia correcta.</p>
+        <iframe src="https://embeds.beehiiv.com/1ea7de94-3cf4-473a-b119-cffe3b147d7a?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin: 0; border-radius: 12px !important; background-color: transparent; width: 100%;"></iframe>
       </div>
     </section>
     <script>
-      // Intersection Observer for fade-in animation
+      document.addEventListener('mousemove', (e) => {
+        const parallaxElements = document.querySelectorAll('.mouse-parallax');
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        parallaxElements.forEach(element => {
+          const speed = 0.05;
+          const x = (window.innerWidth - mouseX * 2) * speed;
+          const y = (window.innerHeight - mouseY * 2) * speed;
+          element.style.transform = `translate(${x}px, ${y}px)`;
+        });
+      });
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -186,18 +283,8 @@ src="https://www.facebook.com/tr?id=1015020970673030&ev=PageView&noscript=1"
       }, {
         threshold: 0.1
       });
-      // Observe all sections
       document.querySelectorAll('section').forEach(section => {
         observer.observe(section);
-      });
-      // Simple form handling
-      document.getElementById('email-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = e.target.elements[0].value;
-        console.log('Email submitted:', email);
-        // Here you would typically send this to your backend
-        e.target.elements[0].value = '';
-        alert('Thanks for joining The Lab!');
       });
     </script>
   </body>
