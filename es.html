@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -297,6 +297,69 @@
           padding: 4rem 0.5rem;
         }
       }
+
+      .contact-form {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        width: 100%;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid rgba(239, 235, 190, 0.3);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 10px rgba(239, 235, 190, 0.2);
+      }
+
+      .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .form-group input::placeholder,
+      .form-group textarea::placeholder {
+        color: #a3a3a3;
+      }
+
+      .form-feedback {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .form-feedback.success {
+        background-color: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+
+      .form-feedback.error {
+        background-color: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+
+      .feedback-content p {
+        margin-bottom: 0;
+        font-size: 1rem;
+      }
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FD5EF31N8F"></script>
@@ -327,11 +390,11 @@
         s = b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t, s)
       }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1244476477681379');
+      fbq('init', '1015020970673030');
       fbq('track', 'PageView');
     </script>
     <noscript>
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1244476477681379&ev=PageView&noscript=1" />
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1015020970673030&ev=PageView&noscript=1" />
     </noscript>
     <!-- End Meta Pixel Code -->
   </head>
@@ -339,14 +402,10 @@
     <section id="cta">
       <div class="mouse-parallax circle" style="top: 60%; right: 10%;"></div>
       <div class="content">
-        <h1>Beats</h1>
-        <p>Obtén mi beat más reciente, licencia comercial incluida.</p>
-        <div class="video-container">
-          <iframe src="https://www.youtube.com/embed/3q439iP3JX0?si=lIwXSloWuGtUX3MT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <div class="cta-container">
-          <a href="https://snd.ee/btpk" class="cta-button">Comprar</a>
-        </div>
+        <h1>No arriesgues tu música</h1>
+        <p>Obtén mi beat más reciente con licencia comercial garantizada.</p>
+        <iframe src="https://traktrain.com/widget/186250" width="100%" height="700" frameborder="0"></iframe>
+        <p>*Si agregas 2 beats al carrito, recibes 50% de descuento.*</p>
       </div>
     </section>
     <section id="solution">
@@ -354,15 +413,28 @@
       <div class="content">
         <h1>Créditos</h1>
         <p>Únete a la lista de artistas que han elegido beats de calidad.</p>
-        <iframe style="border: none;" src="https://open.spotify.com/embed/playlist/4v0XbpJbXsgPXzanIOo1yQ?utm_source=generator&theme=0" width="100%" height="700" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe style="border: none;" src="https://open.spotify.com/embed/playlist/4v0XbpJbXsgPXzanIOo1yQ?utm_source=generator&theme=0" width="100%" height="700" allowfullscreen="" allow="autoplay; clipboard-write;
+encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </section>
-    <section id="signup">
+    <section id="contact">
       <div class="mouse-parallax circle" style="bottom: 20%; right: 30%;"></div>
       <div class="content">
-        <h1>Únete al Círculo Cerrado</h1>
-        <p>Obtén acceso exclusivo a más de 300 beats, samples y estrategias de marketing para posicionar tu marca frente a la audiencia correcta.</p>
-        <iframe src="https://embeds.beehiiv.com/1ea7de94-3cf4-473a-b119-cffe3b147d7a?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin: 0; border-radius: 12px !important; background-color: transparent; width: 100%;"></iframe>
+        <h1>Contacto</h1>
+        <p>Hazme tus preguntas abajo, te responderé lo antes posible.</p>
+        <div class="contact-form">
+          <form id="contactForm">
+            <div class="form-group">
+              <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+            </div>
+            <div class="form-group">
+              <textarea id="message" name="message" placeholder="Tu mensaje" required></textarea>
+            </div>
+            <div class="cta-container">
+              <button type="submit" class="cta-button">Enviar mensaje</button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
     <script>
@@ -389,6 +461,43 @@
       });
       document.querySelectorAll('section').forEach(section => {
         observer.observe(section);
+      });
+    </script>
+    <script>
+      // Client-side JavaScript for the form
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Get form values
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        // Prepare data for sending
+        const formData = {
+          email: email,
+          message: message,
+          timestamp: new Date().toISOString()
+        };
+        // Replace with your Google Apps Script deployment URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxcSBm2QJvtiS89XUbC0gByUHNu61Q6jtE0D_eXCBkPu5i8xn2aL49XVuLP5kEK9VBt/exec';
+        // Send data to Google Apps Script
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          }
+        }).then(response => {
+          if (response.ok) {
+            // Success message
+            alert('¡Gracias! Tu mensaje se ha enviado con éxito.');
+            document.getElementById('contactForm').reset();
+          } else {
+            // Error message
+            alert('Algo salió mal. Por favor, inténtalo de nuevo más tarde.');
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+          alert('Algo salió mal. Por favor, inténtalo de nuevo más tarde.');
+        });
       });
     </script>
   </body>
