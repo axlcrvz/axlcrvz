@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Ant Farm Ecosystem</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .canvas-container {
+            position: relative;
+            border: 2px solid #333;
+            background-color: #221a0f;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .stats {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .stat-box {
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+        }
+        
+        .stat-box h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pixel Ant Farm Ecosystem</h1>
+    
+    <div class="controls">
+        <button id="addAnts">Add 5 Ants</button>
+        <button id="addFood">Add Food</button>
+        <button id="toggleWall">Place Wall</button>
+        <button id="reset">Reset Farm</button>
+    </div>
+    
+    <div class="canvas-container">
+        <canvas id="antFarm"></canvas>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-box">
+            <h3>Ant Population</h3>
+            <div id="antCount" class="stat-value">0</div>
+        </div>
+        <div class="stat-box">
+            <h3>Food Available</h3>
+            <div id="foodCount" class="stat-value">0</div>
+        </div>
+        <div class="stat-box">
+            <h3>Food Collected</h3>
+            <div id="foodCollected" class="stat-value">0</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('antFarm');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = Math.min(window.innerWidth - 40, 800);
+            canvas.height = 500;
+            
+            // Stats elements
+            const antCountElement = document.getElementById('antCount');
+            const foodCountElement = document.getElementById('foodCount');
+            const foodCollectedElement = document.getElementById('foodCollected');
+            
+            // Game state
+            const state = {
+                ants: [],
+                foods: [],
+                walls: [],
+                anthill: { x: canvas.width / 2, y: canvas.height / 2, radius: 20 },
+                foodCollected: 0,
+                placingWall: false,
+                wallStart: null
+            };
+            
+            // Ant class
+            class Ant {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = 3;
+                    this.speed = 1 + Math.random() * 0.5;
+                    this.direction = Math.random() * Math.PI * 2;
+                    this.color = '#f44336';
+                    this.hasFood = false;
+                    this.timeToChangeDirection = 0;
+                    this.pheromoneTimer = 0;
+                    this.energy = 1000 + Math.random() * 500;
+                    this.lastPheromonePos = { x: 0, y: 0 };
+                }
+                
+                update() {
+                    // Decrease energy
+                    this.energy -= 0.1;
+                    if (this.energy <= 0) {
+                        // Remove dead ant
+                        const index = state.ants.indexOf(this);
+                        if (index > -1) {
+                            state.ants.splice(index, 1);
+                        }
+                        return;
+                    }
+                    
+                    // Random direction change
+                    this.timeToChangeDirection--;
+                    if (this.timeToChangeDirection <= 0) {
+                        this.direction += (Math.random() - 0.5) * 0.5;
+                        this.timeToChangeDirection = Math.floor(Math.random() * 60) + 20;
+                    }
+                    
+                    // If has food, go back to anthill
+                    if (this.hasFood) {
+                        const dx = state.anthill.x - this.x;
+                        const dy = state.anthill.y - this.y;
+                        this.direction = Math.atan2(dy, dx);
+                        this.color = '#ffeb3b'; // Yellow when carrying food
+                    } else {
+                        this.color = '#f44336'; // Red when searching
+                        
+                        // Look for food
+                        let closestFood = null;
+                        let closestDistance = 100; // Detection radius
+                        
+                        for (const food of state.foods) {
+                            const dx = food.x - this.x;
+                            const dy = food.y - this.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestFood = food;
+                            }
+                        }
+                        
+                        if (closestFood) {
+                            const dx = closestFood.x - this.x;
+                            const dy = closestFood.y - this.y;
+                            this.direction = Math.atan2(dy, dx);
+                        }
+                    }
+                    
+                    // Move ant
+                    const nextX = this.x + Math.cos(this.direction) * this.speed;
+                    const nextY = this.y + Math.sin(this.direction) * this.speed;
+                    
+                    // Check wall collision
+                    let hitWall = false;
+                    for (const wall of state.walls) {
+                        if (lineIntersectsLine(
+                            this.x, this.y, nextX, nextY,
+                            wall.x1, wall.y1, wall.x2, wall.y2
+                        )) {
+                            hitWall = true;
+                            break;
+                        }
+                    }
+                    
+                    // Bounce off walls
+                    if (hitWall) {
+                        this.direction += Math.PI + (Math.random() - 0.5) * 0.5;
+                    }
+                    // Bounds checking
+                    else if (nextX < 0 || nextX > canvas.width || nextY < 0 || nextY > canvas.height) {
+                        this.direction += Math.PI + (Math.random() - 0.5) * 0.5;
+                    } 
+                    else {
+                        // Move ant
+                        this.x = nextX;
+                        this.y = nextY;
+                    }
+                    
+                    // Collect food
+                    if (!this.hasFood) {
+                        for (let i = 0; i < state.foods.length; i++) {
+                            const food = state.foods[i];
+                            const dx = food.x - this.x;
+                            const dy = food.y - this.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < food.size + this.size) {
+                                this.hasFood = true;
+                                food.size -= 1;
+                                if (food.size <= 2) {
+                                    state.foods.splice(i, 1); // Remove food if depleted
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Return food to anthill
+                    if (this.hasFood) {
+                        const dx = state.anthill.x - this.x;
+                        const dy = state.anthill.y - this.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < state.anthill.radius) {
+                            this.hasFood = false;
+                            state.foodCollected++;
+                            this.energy += 200; // Regain energy when delivering food
+                            
+                            // Spawn new ant every 10 food
+                            if (state.foodCollected % 10 === 0 && state.ants.length < 50) {
+                                state.ants.push(new Ant(state.anthill.x, state.anthill.y));
+                            }
+                        }
+                    }
+                }
+                
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw direction indicator
+                    const headX = this.x + Math.cos(this.direction) * this.size * 1.5;
+                    const headY = this.y + Math.sin(this.direction) * this.size * 1.5;
+                    ctx.beginPath();
+                    ctx.arc(headX, headY, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Line intersection detection for wall collisions
+            function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+                const denominator = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1));
+                if (denominator === 0) {
+                    return false;
+                }
+                
+                const ua = (((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3))) / denominator;
+                const ub = (((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3))) / denominator;
+                
+                return (ua >= 0 && ua <= 1) && (ub >= 0 && ub <= 1);
+            }
+            
+            // Initialize the farm
+            function initializeFarm() {
+                // Create anthill
+                state.anthill = { 
+                    x: canvas.width / 2, 
+                    y: canvas.height / 2, 
+                    radius: 20 
+                };
+                
+                // Add initial ants
+                for (let i = 0; i < 10; i++) {
+                    state.ants.push(new Ant(state.anthill.x, state.anthill.y));
+                }
+                
+                // Add initial food
+                addRandomFood(5);
+            }
+            
+            // Add random food sources
+            function addRandomFood(count) {
+                for (let i = 0; i < count; i++) {
+                    let validPosition = false;
+                    let x, y;
+                    
+                    // Try to find a valid position
+                    let attempts = 0;
+                    while (!validPosition && attempts < 50) {
+                        x = Math.random() * (canvas.width - 40) + 20;
+                        y = Math.random() * (canvas.height - 40) + 20;
+                        
+                        // Check if too close to anthill
+                        const dx = x - state.anthill.x;
+                        const dy = y - state.anthill.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance > state.anthill.radius + 50) {
+                            validPosition = true;
+                        }
+                        attempts++;
+                    }
+                    
+                    if (validPosition) {
+                        state.foods.push({
+                            x,
+                            y,
+                            size: 5 + Math.random() * 7
+                        });
+                    }
+                }
+            }
+            
+            // Draw the farm
+            function draw() {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw anthill
+                ctx.fillStyle = '#8b4513';
+                ctx.beginPath();
+                ctx.arc(state.anthill.x, state.anthill.y, state.anthill.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw food
+                ctx.fillStyle = '#4CAF50';
+                for (const food of state.foods) {
+                    ctx.beginPath();
+                    ctx.arc(food.x, food.y, food.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Draw walls
+                ctx.strokeStyle = '#795548';
+                ctx.lineWidth = 4;
+                for (const wall of state.walls) {
+                    ctx.beginPath();
+                    ctx.moveTo(wall.x1, wall.y1);
+                    ctx.lineTo(wall.x2, wall.y2);
+                    ctx.stroke();
+                }
+                
+                // Draw ants
+                for (const ant of state.ants) {
+                    ant.draw();
+                }
+                
+                // Draw wall being placed
+                if (state.placingWall && state.wallStart) {
+                    ctx.strokeStyle = 'rgba(121, 85, 72, 0.5)';
+                    ctx.beginPath();
+                    ctx.moveTo(state.wallStart.x, state.wallStart.y);
+                    ctx.lineTo(mousePos.x, mousePos.y);
+                    ctx.stroke();
+                }
+                
+                // Update stats
+                antCountElement.textContent = state.ants.length;
+                foodCountElement.textContent = state.foods.length;
+                foodCollectedElement.textContent = state.foodCollected;
+            }
+            
+            // Update game logic
+            function update() {
+                // Update ants
+                for (let i = state.ants.length - 1; i >= 0; i--) {
+                    state.ants[i].update();
+                }
+                
+                // Add food occasionally
+                if (Math.random() < 0.005 && state.foods.length < 15) {
+                    addRandomFood(1);
+                }
+            }
+            
+            // Game loop
+            function gameLoop() {
+                update();
+                draw();
+                requestAnimationFrame(gameLoop);
+            }
+            
+            // Mouse position tracking
+            const mousePos = { x: 0, y: 0 };
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mousePos.x = e.clientX - rect.left;
+                mousePos.y = e.clientY - rect.top;
+            });
+            
+            // Event listeners for controls
+            document.getElementById('addAnts').addEventListener('click', () => {
+                for (let i = 0; i < 5; i++) {
+                    if (state.ants.length < 50) {
+                        state.ants.push(new Ant(state.anthill.x, state.anthill.y));
+                    }
+                }
+            });
+            
+            document.getElementById('addFood').addEventListener('click', () => {
+                addRandomFood(3);
+            });
+            
+            document.getElementById('toggleWall').addEventListener('click', () => {
+                state.placingWall = !state.placingWall;
+                state.wallStart = null;
+                document.getElementById('toggleWall').textContent = state.placingWall ? 'Cancel Wall' : 'Place Wall';
+            });
+            
+            document.getElementById('reset').addEventListener('click', () => {
+                state.ants = [];
+                state.foods = [];
+                state.walls = [];
+                state.foodCollected = 0;
+                state.placingWall = false;
+                state.wallStart = null;
+                document.getElementById('toggleWall').textContent = 'Place Wall';
+                initializeFarm();
+            });
+            
+            // Wall placement
+            canvas.addEventListener('mousedown', (e) => {
+                if (state.placingWall) {
+                    state.wallStart = { x: mousePos.x, y: mousePos.y };
+                }
+            });
+            
+            canvas.addEventListener('mouseup', (e) => {
+                if (state.placingWall && state.wallStart) {
+                    const endX = mousePos.x;
+                    const endY = mousePos.y;
+                    const dx = endX - state.wallStart.x;
+                    const dy = endY - state.wallStart.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance > 10) {
+                        state.walls.push({
+                            x1: state.wallStart.x,
+                            y1: state.wallStart.y,
+                            x2: endX,
+                            y2: endY
+                        });
+                    }
+                    state.wallStart = null;
+                }
+            });
+            
+            // Initialize and start the game
+            initializeFarm();
+            gameLoop();
+        });
+    </script>
+</body>
+</html>
