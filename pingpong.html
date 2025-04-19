@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Pong Tournament</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            border: 2px solid #333;
+            background: #000;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #0ff;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            text-shadow: 0 0 10px #0ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="info"></div>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 800; // Square arena
+
+        const infoDisplay = document.getElementById('info');
+
+        // Ball
+        let ball = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 8,
+            dx: 4,
+            dy: 4,
+            speed: 4,
+            maxSpeed: 10,
+            speedIncrease: 0.02
+        };
+
+        // Paddles
+        const paddleWidth = 100;
+        const paddleHeight = 10;
+        const paddleSpeed = 8;
+        const paddles = [
+            // Top
+            {
+                x: canvas.width / 2 - paddleWidth / 2,
+                y: 10,
+                width: paddleWidth,
+                height: paddleHeight,
+                health: 5,
+                color: '#0ff',
+                axis: 'x', // Moves along x-axis
+                isActive: true
+            },
+            // Bottom
+            {
+                x: canvas.width / 2 - paddleWidth / 2,
+                y: canvas.height - 20,
+                width: paddleWidth,
+                height: paddleHeight,
+                health: 5,
+                color: '#f00',
+                axis: 'x',
+                isActive: true
+            },
+            // Left
+            {
+                x: 10,
+                y: canvas.height / 2 - paddleWidth / 2,
+                width: paddleHeight,
+                height: paddleWidth,
+                health: 5,
+                color: '#0f0',
+                axis: 'y', // Moves along y-axis
+                isActive: true
+            },
+            // Right
+            {
+                x: canvas.width - 20,
+                y: canvas.height / 2 - paddleWidth / 2,
+                width: paddleHeight,
+                height: paddleWidth,
+                health: 5,
+                color: '#ff0',
+                axis: 'y',
+                isActive: true
+            }
+        ];
+
+        // Particles for Visual Effects
+        let particles = [];
+
+        function createParticle(x, y, color) {
+            return {
+                x: x,
+                y: y,
+                radius: Math.random() * 3 + 1,
+                dx: (Math.random() - 0.5) * 4,
+                dy: (Math.random() - 0.5) * 4,
+                alpha: 1,
+                color: color
+            };
+        }
+
+        function spawnParticles(x, y, count, color) {
+            for (let i = 0; i < count; i++) {
+                particles.push(createParticle(x, y, color));
+            }
+        }
+
+        function spawnTrailParticles() {
+            particles.push(createParticle(
+                ball.x,
+                ball.y,
+                `rgba(0, 255, 255, ${Math.random() * 0.5 + 0.5})`
+            ));
+        }
+
+        function drawParticles() {
+            particles.forEach((particle, index) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color.replace('1)', particle.alpha + ')');
+                ctx.fill();
+                particle.x += particle.dx;
+                particle.y += particle.dy;
+                particle.alpha -= 0.02;
+                particle.radius *= 0.98;
+                if (particle.alpha <= 0 || particle.radius < 0.1) {
+                    particles.splice(index, 1);
+                }
+            });
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#0ff';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#0ff';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            spawnTrailParticles();
+        }
+
+        function drawPaddles() {
+            paddles.forEach(paddle => {
+                if (paddle.isActive) {
+                    ctx.beginPath();
+                    ctx.rect(paddle.x, paddle.y, paddle.width, paddle.height);
+                    ctx.fillStyle = paddle.color;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = paddle.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    // Draw health bar
+                    ctx.beginPath();
+                    ctx.rect(
+                        paddle.axis === 'x' ? paddle.x : paddle.x + 20,
+                        paddle.axis === 'x' ? paddle.y + 15 : paddle.y,
+                        paddle.axis === 'x' ? paddle.width * (paddle.health / 5) : 5,
+                        paddle.axis === 'x' ? 5 : paddle.width * (paddle.health / 5)
+                    );
+                    ctx.fillStyle = paddle.color;
+                    ctx.fill();
+                }
+            });
+        }
+
+        function movePaddles() {
+            paddles.forEach(paddle => {
+                if (!paddle.isActive) return;
+                if (paddle.axis === 'x') {
+                    // Track ball's x-position
+                    const paddleCenter = paddle.x + paddle.width / 2;
+                    if (ball.x > paddleCenter && paddle.x + paddle.width < canvas.width - 10) {
+                        paddle.x += paddleSpeed;
+                    } else if (ball.x < paddleCenter && paddle.x > 10) {
+                        paddle.x -= paddleSpeed;
+                    }
+                } else {
+                    // Track ball's y-position
+                    const paddleCenter = paddle.y + paddle.height / 2;
+                    if (ball.y > paddleCenter && paddle.y + paddle.height < canvas.height - 10) {
+                        paddle.y += paddleSpeed;
+                    } else if (ball.y < paddleCenter && paddle.y > 10) {
+                        paddle.y -= paddleSpeed;
+                    }
+                }
+            });
+        }
+
+        function moveBall() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Accelerate ball
+            ball.speed = Math.min(ball.speed + ball.speedIncrease, ball.maxSpeed);
+            const currentSpeed = Math.sqrt(ball.dx ** 2 + ball.dy ** 2);
+            if (currentSpeed !== 0) {
+                ball.dx = (ball.dx / currentSpeed) * ball.speed;
+                ball.dy = (ball.dy / currentSpeed) * ball.speed;
+            }
+
+            // Paddle collisions
+            paddles.forEach(paddle => {
+                if (!paddle.isActive) return;
+                let hit = false;
+                if (
+                    paddle.axis === 'x' &&
+                    ball.y + ball.radius > paddle.y &&
+                    ball.y - ball.radius < paddle.y + paddle.height &&
+                    ball.x > paddle.x &&
+                    ball.x < paddle.x + paddle.width
+                ) {
+                    hit = true;
+                    ball.dy = -Math.abs(ball.dy) * (paddle.y === 10 ? 1 : -1);
+                    const hitPoint = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+                    ball.dx += hitPoint * 2; // Adjust angle based on hit position
+                } else if (
+                    paddle.axis === 'y' &&
+                    ball.x + ball.radius > paddle.x &&
+                    ball.x - ball.radius < paddle.x + paddle.width &&
+                    ball.y > paddle.y &&
+                    ball.y < paddle.y + paddle.height
+                ) {
+                    hit = true;
+                    ball.dx = -Math.abs(ball.dx) * (paddle.x === 10 ? 1 : -1);
+                    const hitPoint = (ball.y - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
+                    ball.dy += hitPoint * 2;
+                }
+                if (hit) {
+                    spawnParticles(ball.x, ball.y, 10, paddle.color);
+                }
+            });
+
+            // Wall collisions (damage paddles)
+            if (ball.y - ball.radius <= 0 && paddles[0].isActive) {
+                paddles[0].health--;
+                if (paddles[0].health <= 0) paddles[0].isActive = false;
+                ball.dy = Math.abs(ball.dy);
+                spawnParticles(ball.x, ball.y, 15, '#0ff');
+            } else if (ball.y + ball.radius >= canvas.height && paddles[1].isActive) {
+                paddles[1].health--;
+                if (paddles[1].health <= 0) paddles[1].isActive = false;
+                ball.dy = -Math.abs(ball.dy);
+                spawnParticles(ball.x, ball.y, 15, '#f00');
+            } else if (ball.x - ball.radius <= 0 && paddles[2].isActive) {
+                paddles[2].health--;
+                if (paddles[2].health <= 0) paddles[2].isActive = false;
+                ball.dx = Math.abs(ball.dx);
+                spawnParticles(ball.x, ball.y, 15, '#0f0');
+            } else if (ball.x + ball.radius >= canvas.width && paddles[3].isActive) {
+                paddles[3].health--;
+                if (paddles[3].health <= 0) paddles[3].isActive = false;
+                ball.dx = -Math.abs(ball.dx);
+                spawnParticles(ball.x, ball.y, 15, '#ff0');
+            }
+        }
+
+        function checkGameOver() {
+            const activePaddles = paddles.filter(p => p.isActive).length;
+            if (activePaddles <= 1) {
+                // Reset game
+                ball = {
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    radius: 8,
+                    dx: 4,
+                    dy: 4,
+                    speed: 4,
+                    maxSpeed: 10,
+                    speedIncrease: 0.02
+                };
+                paddles.forEach(paddle => {
+                    paddle.health = 5;
+                    paddle.isActive = true;
+                    if (paddle.axis === 'x') {
+                        paddle.x = canvas.width / 2 - paddleWidth / 2;
+                    } else {
+                        paddle.y = canvas.height / 2 - paddleWidth / 2;
+                    }
+                });
+                particles = [];
+            }
+        }
+
+        function updateInfo() {
+            const healthText = paddles
+                .map((p, i) => {
+                    const name = ['Top', 'Bottom', 'Left', 'Right'][i];
+                    return `${name}: ${p.isActive ? p.health : 'OUT'}`;
+                })
+                .join(' | ');
+            infoDisplay.textContent = `Health: ${healthText} | Ball Speed: ${ball.speed.toFixed(2)}`;
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawParticles();
+            drawPaddles();
+            drawBall();
+            movePaddles();
+            moveBall();
+            checkGameOver();
+            updateInfo();
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+</html>
