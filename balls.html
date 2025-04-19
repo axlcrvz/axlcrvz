@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hypnotic Bouncing Balls</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      font-family: Arial, sans-serif;
+    }
+    
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    
+    canvas {
+      display: block;
+    }
+    
+    .ui {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 48px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 20px;
+      display: none;
+    }
+    
+    button {
+      background-color: #e94560;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #ff6b81;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <div class="ui">
+    <div>Balls: <span id="ballCount">1</span></div>
+    <div>Time: <span id="timeAlive">0</span>s</div>
+  </div>
+  <div id="gameOver" class="game-over">
+    <h1>Game Over!</h1>
+    <p>A ball escaped the container!</p>
+    <p>Your score: <span id="finalScore">0</span></p>
+    <button id="restartButton">Play Again</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const ballCountEl = document.getElementById('ballCount');
+    const timeAliveEl = document.getElementById('timeAlive');
+    const gameOverEl = document.getElementById('gameOver');
+    const finalScoreEl = document.getElementById('finalScore');
+    const restartButton = document.getElementById('restartButton');
+    
+    // Set canvas size to window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Game variables
+    let balls = [];
+    let gameActive = true;
+    let startTime = Date.now();
+    let ballsCreated = 1;
+    let lastBounceTime = 0;
+    let gravity = 0.25;
+    let bounceFactor = 0.8;
+    let ballSpeed = 2;
+    
+    // Color palettes for balls
+    const colorPalettes = [
+      ['#ff6b6b', '#4ecdc4', '#ffbe0b', '#fb5607', '#8338ec'],
+      ['#06d6a0', '#118ab2', '#ef476f', '#ffd166', '#073b4c'],
+      ['#ff9f1c', '#ffbf69', '#cbf3f0', '#2ec4b6', '#fdfffc']
+    ];
+    
+    // Sound effects
+    const bounceSound = new Audio();
+    bounceSound.src = 'data:audio/wav;base64,UklGRk4EAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YSoEAACBhYqFbF1fdIeWiXhycIKTpJmDeHiEnJ+SeWlpfJOhm4iBfIebn5KEcmuBnaumkHdveJWuq5d6Z3OQr7CjhHNxiKyzq4+AcX2ftrSjjoJ6kK+yq5mQhIyjs7CkmIuBjayzsaeakISQp7Sxp5uRhI+ms7CmnJGEkKi2tKugkoeRqre2rqOTiJOsuLewppeLk6y5uLGomYyUrLm5s6qbjpWsu7q0rJ2Pla27urWtno+WrLy7tq6gkJasu7u3r6GRl6y8vLiwopGXrby8ubGjkZetvLy6sqSSmK28vLqzpZKYrr29u7SmkpiuvL27taeUma+9vby1p5SYr729vbanlZmvvr69t6iVmbC+vr63qZaasb6/v7iplpqxv7+/uaqXmrG/v7+5q5ebssC/v7qrl5uxwMDAuqyYm7LAwMC7rJibssDAwLutmZyywcHBvK2ZnLLBwcG8rpqdssPDw72ump2yw8PDva+anrPDw8O+r5uessPDw76wmZ+zw8PDv7GaoLTExMS/sZqgs8TExMCym6G0xMTEwbKborTExMTBs5uis8TExMKzm6KzxcXFwrSco7TFxcXDtJyjtMXFxcO1naS1xcXFxLWdpLXGxsbEtp6ltcbGxsW2nqW1xsbGxreepbXGxsbHuJ+mtsfHx8e4n6a2x8fHyLmgp7bHx8fIuqCnuMjIyMm6oai3yMjIybuhqLjIyMjKvKKpuMnJycq8oqm4ycnJy72jqbjJycnMvaOpucnJycy+pKq5ysrKzb6kqrrKysrNv6WrusrKys7Apau6ysrKzsGmrLvLy8vPwaasusrKys/Bp628y8vL0MKnrrzLy8vQwqivvMzMzNHDqK+8zMzM0cSpsL3MzMzSxKmwvczMzNLFqrG+zc3N08WqsbzMzMzTxquxvs3NzdTGq7G9zc3N1MessrvNzc3Vx6yyvc3NzdXHrbO+zs7O1sitsr7Ozs7XyK2zvs7OztfJrrS/zs7O2Mmutb/Pz8/YybC1wM/Pz9nKsLbAz8/P2cuxtsHQ0NDayrG2wNDQ0NrLsrfB0NDQ28uyt8HQ0NDby7O3wtHR0dzMs7jC0dHR3cyzt8PR0dHdzrS4w9LS0t7OtLjD0tLS3s+1ucTS0tLfz7W5xNPT09/Qtrm+0tLS4NC2ucTT09Pg0be6xdPT0+HRt7nF1NTU4dK4u8bU1NTi0ri7xtTU1OPSubzH1dXV49O5vMfV1dXk1Lq8x9XV1eTUurzH1tbW5dW7vcjW1tbl1bu9yNbW1ubWvL7J19fX59a8vsjX19fn17y+ydfX1+jXvb/J19fX6Ni9v8nX19fo2L6/ydja2unYvr/I2NnZ6tnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
+    
+    const gameOverSound = new Audio();
+    gameOverSound.src = 'data:audio/wav;base64,UklGRiQEAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAEAACBgoSHh4aIkJWYlJCNkZKQj4+VnaCempmhqKimoaCkqqypp6Wnsre7tbCos7q8uri0tLi/xcjAvbm7w8nNyMG+w87W2dPLyNDbLC0uMTIwMTc9QUZDQD5BRUlNUFJTVFZZW1xeX2BiZGZoaWpsbW9wcXJzdHV2d3h5enp7e3t8fHx8fH1+f4CAgICAgICAgICAgH9+fXt5d3Z1c3JycG5ta2ppaGdmZWRjYmFgX15dXFtbWllaWFdWVlVUU1NSUlFQUE9OTUxMTEtLSkpKSUlJSEhHR0dGRkZGRUVFRUVFRERDQ0NCQkJCQkFBQUFBQUFBQD8/Pz8/Pz8/Pz4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4=';
+    
+    const createBallSound = new Audio();
+    createBallSound.src = 'data:audio/wav;base64,UklGRpQDAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YXADAABBQkRGSUtMTU5PUFBQUFBPT05NTEtJSEZEQkA+PDo4NjQyMC4sKiglIyEfHRsZFxUTEQ8NCwkHBQMBAAEDBAYICgwOEBIUFhgaHB4gIiQmKCosLjAyNDY4Ojw+QEFDRUZKTU5PUFBQUFBPT05OTEtKSEZFQ0E/PT07OTc1My8tKyknJSMhHx0bGRcVExAODAsJBwUDBAYICgwOEBIUFhgaHB4gIiQmKCotLzEzNTc5Oz0/QUNFRkhKS01OT1BQUFBQT05OTUxLSUhGREJAPz07OTc1MzEwLiwoJiQiIB4cGhgWFBIPDQsJBwYEAgMFBwkLDQ8RExUXGRsdHyEjJScoKiwuMDIzNTc5Oz0/QEJERMTGSET09Ly4tLCspqKenJiUkI2JhYF9eXVxbWlmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgkFA');
+    
+    class Ball {
+      constructor(x, y, radius) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius || 20 + Math.random() * 20;
+        this.dx = (Math.random() - 0.5) * ballSpeed * 2;
+        this.dy = -Math.random() * ballSpeed * 3;
+        this.color = this.getRandomColor();
+        this.bounceCount = 0;
+        this.lastBounce = 0;
+        this.pulseSize = 0;
+        this.pulseDirection = 1;
+        this.pulseSpeed = 0.05 + Math.random() * 0.1;
+        this.rotation = 0;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+        this.glowIntensity = 0;
+        this.glowDirection = 1;
+      }
+      
+      getRandomColor() {
+        const palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+        return palette[Math.floor(Math.random() * palette.length)];
+      }
+      
+      update() {
+        // Apply gravity
+        this.dy += gravity;
+        
+        // Update position
+        this.x += this.dx;
+        this.y += this.dy;
+        
+        // Handle wall collisions
+        if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+          this.dx = -this.dx * bounceFactor;
+          this.x = this.x - this.radius < 0 ? this.radius : canvas.width - this.radius;
+        }
+        
+        // Handle floor bounce
+        if (this.y + this.radius > canvas.height) {
+          this.dy = -this.dy * bounceFactor;
+          this.y = canvas.height - this.radius;
+          
+          // Check if enough time has passed since last bounce
+          const now = Date.now();
+          if (now - this.lastBounce > 500) {
+            this.lastBounce = now;
+            this.bounceCount++;
+            this.pulseSize = this.radius * 0.3;
+            this.glowIntensity = 10;
+            
+            // Play bounce sound with random pitch
+            const bounceClone = bounceSound.cloneNode();
+            bounceClone.playbackRate = 0.8 + Math.random() * 0.4;
+            bounceClone.volume = 0.2;
+            bounceClone.play();
+            
+            // Create a new ball after bounce
+            if (gameActive && now - lastBounceTime > 300) {
+              lastBounceTime = now;
+              createNewBall();
+            }
+          }
+        }
+        
+        // Handle ceiling bounce
+        if (this.y - this.radius < 0) {
+          // Game over if ball hits the top
+          if (gameActive) {
+            gameOver();
+          }
+        }
+        
+        // Update visual effects
+        this.rotation += this.rotationSpeed;
+        
+        // Update pulse effect
+        if (this.pulseSize > 0) {
+          this.pulseSize -= 0.5;
+        }
+        
+        // Update glow effect
+        if (this.glowIntensity > 0) {
+          this.glowIntensity -= 0.5;
+        }
+      }
+      
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        
+        // Draw glow
+        if (this.glowIntensity > 0) {
+          ctx.shadowBlur = this.glowIntensity;
+          ctx.shadowColor = this.color;
+        }
+        
+        // Draw the ball
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        
+        // Draw decorative circle inside
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fill();
+        
+        // Draw pulse effect
+        if (this.pulseSize > 0) {
+          ctx.beginPath();
+          ctx.arc(0, 0, this.radius + this.pulseSize, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${this.pulseSize / (this.radius * 0.3)})`;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+        
+        ctx.restore();
+      }
+    }
+    
+    function createNewBall() {
+      const x = Math.random() * (canvas.width - 100) + 50;
+      const y = canvas.height - 50;
+      
+      balls.push(new Ball(x, y));
+      ballsCreated++;
+      ballCountEl.textContent = ballsCreated;
+      
+      // Play creation sound
+      const createSound = createBallSound.cloneNode();
+      createSound.playbackRate = 0.7 + (balls.length * 0.05);
+      createSound.volume = 0.3;
+      createSound.play();
+      
+      // Increase difficulty over time
+      if (ballsCreated % 5 === 0) {
+        gravity += 0.01;
+        ballSpeed += 0.2;
+      }
+    }
+    
+    function gameOver() {
+      gameActive = false;
+      const timeAlive = Math.floor((Date.now() - startTime) / 1000);
+      
+      gameOverEl.style.display = 'block';
+      finalScoreEl.textContent = `${ballsCreated} balls - ${timeAlive} seconds`;
+      
+      // Play game over sound
+      gameOverSound.volume = 0.5;
+      gameOverSound.play();
+    }
+    
+    function restartGame() {
+      balls = [];
+      createNewBall();
+      gameActive = true;
+      startTime = Date.now();
+      ballsCreated = 1;
+      lastBounceTime = 0;
+      gravity = 0.25;
+      bounceFactor = 0.8;
+      ballSpeed = 2;
+      
+      gameOverEl.style.display = 'none';
+      ballCountEl.textContent = '1';
+      timeAliveEl.textContent = '0';
+    }
+    
+    function update() {
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Update and draw balls
+      for (let i = 0; i < balls.length; i++) {
+        balls[i].update();
+        balls[i].draw();
+      }
+      
+      // Update timer
+      if (gameActive) {
+        const timeAlive = Math.floor((Date.now() - startTime) / 1000);
+        timeAliveEl.textContent = timeAlive;
+      }
+      
+      // Request next frame
+      requestAnimationFrame(update);
+    }
+    
+    // Start game
+    function init() {
+      // Create first ball
+      createNewBall();
+      
+      // Start game loop
+      update();
+      
+      // Add event listeners
+      restartButton.addEventListener('click', restartGame);
+      
+      // Handle window resize
+      window.addEventListener('resize', function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+    
+    // Initialize game
+    init();
+  </script>
+</body>
+</html>
