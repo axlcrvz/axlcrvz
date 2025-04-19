@@ -1,0 +1,789 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dodgeball Duel: Bot Arena</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #111;
+        overflow: hidden;
+        font-family: 'Courier New', monospace;
+        touch-action: none;
+      }
+
+      #gameCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #111;
+      }
+
+      #scoreBoard {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        padding: 5px;
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      #announcements {
+        position: absolute;
+        bottom: 20%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        pointer-events: none;
+        z-index: 10;
+        transition: opacity 0.5s;
+        opacity: 0;
+      }
+
+      #announcements.show {
+        opacity: 1;
+      }
+
+      #roundInfo {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: #aaa;
+        font-size: 14px;
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      #pauseOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 20;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+
+      #pauseOverlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .score-item {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 5px 10px;
+        border-radius: 15px;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .bot-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="scoreBoard"></div>
+    <div id="roundInfo"></div>
+    <div id="announcements"></div>
+    <div id="pauseOverlay">
+      <div style="text-align: center;">
+        <h2>GAME PAUSED</h2>
+        <p style="margin-top: 20px;">Tap anywhere to resume</p>
+      </div>
+    </div>
+    <script>
+      // Game Configuration
+      const config = {
+        fps: 60,
+        winningScore: 10,
+        arenaSize: {
+          width: 1000,
+          height: 1000
+        },
+        bots: [{
+          name: 'RED',
+          color: '#ff3333',
+          glow: '#ff6666'
+        }, {
+          name: 'BLUE',
+          color: '#3333ff',
+          glow: '#6666ff'
+        }, {
+          name: 'GREEN',
+          color: '#33ff33',
+          glow: '#66ff66'
+        }, {
+          name: 'YELLOW',
+          color: '#ffff33',
+          glow: '#ffff66'
+        }],
+        botSize: 25,
+        botSpeed: 2.5,
+        ballSize: 15,
+        ballSpeed: 7,
+        ballCooldown: 1000, // milliseconds
+        respawnTime: 3000, // milliseconds
+        roundEndDelay: 2000, // milliseconds
+        maxActiveBalls: 2, // max balls each bot can have active
+      };
+      // Canvas and Context
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const scoreBoard = document.getElementById('scoreBoard');
+      const roundInfo = document.getElementById('roundInfo');
+      const announcements = document.getElementById('announcements');
+      const pauseOverlay = document.getElementById('pauseOverlay');
+      // Game state
+      let gameActive = true;
+      let isPaused = false;
+      let currentRound = 1;
+      let bots = [];
+      let balls = [];
+      let particles = [];
+      let announceTimeout;
+      let lastTime = 0;
+      let deltaTime = 0;
+      // Resize canvas to match window size
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      // Initialize game
+      function init() {
+        resizeCanvas();
+        createBots();
+        updateScoreBoard();
+        window.addEventListener('resize', resizeCanvas);
+        canvas.addEventListener('click', handleTap);
+        canvas.addEventListener('touchstart', handleTap);
+        // Start game loop
+        requestAnimationFrame(gameLoop);
+      }
+      // Create bots with initial positions and properties
+      function createBots() {
+        bots = [];
+        const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+        const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+        const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+        const positions = [{
+          x: scaledArenaWidth * 0.25,
+          y: scaledArenaHeight * 0.25
+        }, {
+          x: scaledArenaWidth * 0.75,
+          y: scaledArenaHeight * 0.25
+        }, {
+          x: scaledArenaWidth * 0.25,
+          y: scaledArenaHeight * 0.75
+        }, {
+          x: scaledArenaWidth * 0.75,
+          y: scaledArenaHeight * 0.75
+        }];
+        config.bots.forEach((botConfig, index) => {
+          bots.push({
+            id: index,
+            name: botConfig.name,
+            color: botConfig.color,
+            glowColor: botConfig.glow,
+            x: positions[index].x + (canvas.width - scaledArenaWidth) / 2,
+            y: positions[index].y + (canvas.height - scaledArenaHeight) / 2,
+            radius: config.botSize,
+            velocityX: 0,
+            velocityY: 0,
+            speed: config.botSpeed,
+            score: 0,
+            isAlive: true,
+            respawnTime: 0,
+            lastBallThrown: 0,
+            activeBalls: 0,
+            streak: 0,
+            targetBot: null,
+            state: 'seek', // seek, evade, attack
+            stateTimer: 0
+          });
+        });
+      }
+      // Main game loop
+      function gameLoop(timestamp) {
+        if (lastTime === 0) lastTime = timestamp;
+        deltaTime = timestamp - lastTime;
+        lastTime = timestamp;
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (!isPaused) {
+          update(deltaTime);
+        }
+        render();
+        requestAnimationFrame(gameLoop);
+      }
+      // Update game state
+      function update(deltaTime) {
+        if (!gameActive) return;
+        updateBots(deltaTime);
+        updateBalls(deltaTime);
+        updateParticles(deltaTime);
+        checkWinCondition();
+      }
+      // Bot AI behavior
+      function updateBots(deltaTime) {
+        bots.forEach(bot => {
+          if (!bot.isAlive) {
+            bot.respawnTime -= deltaTime;
+            if (bot.respawnTime <= 0) {
+              respawnBot(bot);
+            }
+            return;
+          }
+          // Update bot state
+          bot.stateTimer -= deltaTime;
+          if (bot.stateTimer <= 0) {
+            // Randomly change state with weights
+            const stateRoll = Math.random();
+            if (stateRoll < 0.4) {
+              bot.state = 'attack';
+            } else if (stateRoll < 0.7) {
+              bot.state = 'seek';
+            } else {
+              bot.state = 'evade';
+            }
+            // New timer between 1-3 seconds
+            bot.stateTimer = 1000 + Math.random() * 2000;
+            // Pick a random target bot that is alive
+            const aliveBots = bots.filter(b => b.id !== bot.id && b.isAlive);
+            if (aliveBots.length > 0) {
+              bot.targetBot = aliveBots[Math.floor(Math.random() * aliveBots.length)];
+            } else {
+              bot.targetBot = null;
+              bot.state = 'seek'; // Default to seek if no targets
+            }
+          }
+          // Movement based on current state
+          const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+          const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+          const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+          const arenaLeft = (canvas.width - scaledArenaWidth) / 2;
+          const arenaTop = (canvas.height - scaledArenaHeight) / 2;
+          const arenaRight = arenaLeft + scaledArenaWidth;
+          const arenaBottom = arenaTop + scaledArenaHeight;
+          let targetX = bot.x;
+          let targetY = bot.y;
+          if (bot.state === 'seek' && bot.targetBot) {
+            // Move toward target bot
+            targetX = bot.targetBot.x;
+            targetY = bot.targetBot.y;
+          } else if (bot.state === 'evade') {
+            // Find closest ball and evade
+            let closestBall = null;
+            let closestDistance = Infinity;
+            balls.forEach(ball => {
+              if (ball.ownerId !== bot.id) { // Don't evade own balls
+                const dist = distance(bot.x, bot.y, ball.x, ball.y);
+                if (dist < closestDistance) {
+                  closestDistance = dist;
+                  closestBall = ball;
+                }
+              }
+            });
+            if (closestBall && closestDistance < 200) {
+              // Move away from closest ball
+              const dx = bot.x - closestBall.x;
+              const dy = bot.y - closestBall.y;
+              const length = Math.sqrt(dx * dx + dy * dy);
+              targetX = bot.x + (dx / length) * 100;
+              targetY = bot.y + (dy / length) * 100;
+            } else {
+              // Random movement
+              targetX = arenaLeft + Math.random() * scaledArenaWidth;
+              targetY = arenaTop + Math.random() * scaledArenaHeight;
+            }
+          } else if (bot.state === 'attack' && bot.targetBot) {
+            // Position to throw balls at target
+            const dx = bot.targetBot.x - bot.x;
+            const dy = bot.targetBot.y - bot.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 200) {
+              // Move closer but not too close
+              targetX = bot.x + (dx / dist) * 150;
+              targetY = bot.y + (dy / dist) * 150;
+            } else {
+              // Stay at current position and throw
+              throwBall(bot);
+            }
+          }
+          // Calculate movement direction
+          const dx = targetX - bot.x;
+          const dy = targetY - bot.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > 5) {
+            bot.velocityX = (dx / dist) * bot.speed;
+            bot.velocityY = (dy / dist) * bot.speed;
+          } else {
+            bot.velocityX *= 0.9;
+            bot.velocityY *= 0.9;
+          }
+          // Update position
+          bot.x += bot.velocityX;
+          bot.y += bot.velocityY;
+          // Contain within arena
+          if (bot.x < arenaLeft + bot.radius) {
+            bot.x = arenaLeft + bot.radius;
+            bot.velocityX = Math.abs(bot.velocityX) * 0.5;
+          }
+          if (bot.x > arenaRight - bot.radius) {
+            bot.x = arenaRight - bot.radius;
+            bot.velocityX = -Math.abs(bot.velocityX) * 0.5;
+          }
+          if (bot.y < arenaTop + bot.radius) {
+            bot.y = arenaTop + bot.radius;
+            bot.velocityY = Math.abs(bot.velocityY) * 0.5;
+          }
+          if (bot.y > arenaBottom - bot.radius) {
+            bot.y = arenaBottom - bot.radius;
+            bot.velocityY = -Math.abs(bot.velocityY) * 0.5;
+          }
+          // Occasionally throw balls
+          if (bot.state === 'attack' && bot.activeBalls < config.maxActiveBalls) {
+            throwBall(bot);
+          }
+        });
+      }
+      // Update ball positions and check for collisions
+      function updateBalls(deltaTime) {
+        for (let i = balls.length - 1; i >= 0; i--) {
+          const ball = balls[i];
+          // Update position
+          ball.x += ball.velocityX;
+          ball.y += ball.velocityY;
+          // Arena bounds
+          const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+          const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+          const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+          const arenaLeft = (canvas.width - scaledArenaWidth) / 2;
+          const arenaTop = (canvas.height - scaledArenaHeight) / 2;
+          const arenaRight = arenaLeft + scaledArenaWidth;
+          const arenaBottom = arenaTop + scaledArenaHeight;
+          let removeBall = false;
+          // Bounce off walls
+          if (ball.x < arenaLeft + ball.radius) {
+            ball.x = arenaLeft + ball.radius;
+            ball.velocityX = -ball.velocityX;
+          } else if (ball.x > arenaRight - ball.radius) {
+            ball.x = arenaRight - ball.radius;
+            ball.velocityX = -ball.velocityX;
+          }
+          if (ball.y < arenaTop + ball.radius) {
+            ball.y = arenaTop + ball.radius;
+            ball.velocityY = -ball.velocityY;
+          } else if (ball.y > arenaBottom - ball.radius) {
+            ball.y = arenaBottom - ball.radius;
+            ball.velocityY = -ball.velocityY;
+          }
+          // Check for collisions with bots
+          bots.forEach(bot => {
+            if (bot.isAlive && bot.id !== ball.ownerId) {
+              const dist = distance(ball.x, ball.y, bot.x, bot.y);
+              if (dist < bot.radius + ball.radius) {
+                // Ball hit bot
+                removeBall = true;
+                // Create particles for impact
+                createParticles(ball.x, ball.y, ball.color, 15);
+                // Bot is hit
+                botHit(bot, ball.ownerId);
+              }
+            }
+          });
+          // Ball lifetime
+          ball.lifetime -= deltaTime;
+          if (ball.lifetime <= 0 || removeBall) {
+            // Remove ball and decrement owner's active ball count
+            const owner = bots.find(b => b.id === ball.ownerId);
+            if (owner) {
+              owner.activeBalls--;
+            }
+            balls.splice(i, 1);
+          }
+        }
+      }
+      // Update particle effects
+      function updateParticles(deltaTime) {
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const particle = particles[i];
+          // Update position
+          particle.x += particle.velocityX;
+          particle.y += particle.velocityY;
+          // Update lifetime and size
+          particle.lifetime -= deltaTime;
+          particle.size *= 0.95;
+          // Remove dead particles
+          if (particle.lifetime <= 0) {
+            particles.splice(i, 1);
+          }
+        }
+      }
+      // Bot hit by ball
+      function botHit(bot, attackerId) {
+        const attacker = bots.find(b => b.id === attackerId);
+        if (attacker) {
+          attacker.score++;
+          attacker.streak++;
+          // Make announcement
+          showAnnouncement(`${attacker.name} hit ${bot.name}! Streak: ${attacker.streak}`);
+        }
+        // Bot death
+        bot.isAlive = false;
+        bot.respawnTime = config.respawnTime;
+        bot.streak = 0;
+        // Create particles for explosion
+        createParticles(bot.x, bot.y, bot.color, 30);
+        // Update scoreboard
+        updateScoreBoard();
+      }
+      // Respawn a bot
+      function respawnBot(bot) {
+        const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+        const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+        const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+        const arenaLeft = (canvas.width - scaledArenaWidth) / 2;
+        const arenaTop = (canvas.height - scaledArenaHeight) / 2;
+        // Find a safe spawn point away from other bots
+        let safeSpawn = false;
+        let attempts = 0;
+        let spawnX, spawnY;
+        while (!safeSpawn && attempts < 20) {
+          spawnX = arenaLeft + bot.radius + Math.random() * (scaledArenaWidth - bot.radius * 2);
+          spawnY = arenaTop + bot.radius + Math.random() * (scaledArenaHeight - bot.radius * 2);
+          // Check if point is safe from other bots
+          safeSpawn = true;
+          for (const otherBot of bots) {
+            if (otherBot.id !== bot.id && otherBot.isAlive) {
+              const dist = distance(spawnX, spawnY, otherBot.x, otherBot.y);
+              if (dist < otherBot.radius + bot.radius + 100) {
+                safeSpawn = false;
+                break;
+              }
+            }
+          }
+          attempts++;
+        }
+        // Respawn the bot
+        bot.x = spawnX;
+        bot.y = spawnY;
+        bot.isAlive = true;
+        bot.velocityX = 0;
+        bot.velocityY = 0;
+        // Create respawn effect
+        createParticles(bot.x, bot.y, bot.color, 20);
+        // Show respawn announcement
+        showAnnouncement(`${bot.name} has respawned!`);
+      }
+      // Bot throws a ball
+      function throwBall(bot) {
+        if (!bot.isAlive || bot.activeBalls >= config.maxActiveBalls) return;
+        const now = Date.now();
+        if (now - bot.lastBallThrown < config.ballCooldown) return;
+        bot.lastBallThrown = now;
+        bot.activeBalls++;
+        // Target another bot
+        let targetBot = bot.targetBot;
+        if (!targetBot || !targetBot.isAlive) {
+          const aliveBots = bots.filter(b => b.id !== bot.id && b.isAlive);
+          if (aliveBots.length > 0) {
+            targetBot = aliveBots[Math.floor(Math.random() * aliveBots.length)];
+          } else {
+            // No targets, throw in random direction
+            const angle = Math.random() * Math.PI * 2;
+            balls.push({
+              x: bot.x,
+              y: bot.y,
+              radius: config.ballSize,
+              velocityX: Math.cos(angle) * config.ballSpeed,
+              velocityY: Math.sin(angle) * config.ballSpeed,
+              color: bot.color,
+              glowColor: bot.glowColor,
+              ownerId: bot.id,
+              lifetime: 3000 + Math.random() * 1000
+            });
+            return;
+          }
+        }
+        // Calculate direction to target
+        const dx = targetBot.x - bot.x;
+        const dy = targetBot.y - bot.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        // Add some randomness for imperfect aim
+        const accuracy = 0.9; // 1.0 = perfect aim
+        const randomX = (Math.random() - 0.5) * (1 - accuracy) * 100;
+        const randomY = (Math.random() - 0.5) * (1 - accuracy) * 100;
+        // Calculate velocity vector
+        const speedFactor = 1 + Math.random() * 0.2; // Slight random speed variation
+        const vx = (dx / dist) * config.ballSpeed * speedFactor + randomX / dist;
+        const vy = (dy / dist) * config.ballSpeed * speedFactor + randomY / dist;
+        // Create the ball
+        balls.push({
+          x: bot.x,
+          y: bot.y,
+          radius: config.ballSize,
+          velocityX: vx,
+          velocityY: vy,
+          color: bot.color,
+          glowColor: bot.glowColor,
+          ownerId: bot.id,
+          lifetime: 3000 + Math.random() * 1000
+        });
+      }
+      // Create particle effects
+      function createParticles(x, y, color, count) {
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1 + Math.random() * 3;
+          particles.push({
+            x: x,
+            y: y,
+            size: 3 + Math.random() * 5,
+            color: color,
+            velocityX: Math.cos(angle) * speed,
+            velocityY: Math.sin(angle) * speed,
+            lifetime: 300 + Math.random() * 700
+          });
+        }
+      }
+      // Check if a bot has won the round
+      function checkWinCondition() {
+        const winningBot = bots.find(bot => bot.score >= config.winningScore);
+        if (winningBot) {
+          gameActive = false;
+          showAnnouncement(`${winningBot.name} WINS ROUND ${currentRound}!`, 3000);
+          // Reset after delay
+          setTimeout(() => {
+            currentRound++;
+            resetRound();
+          }, config.roundEndDelay);
+        }
+      }
+      // Reset the round
+      function resetRound() {
+        // Clear all balls and particles
+        balls = [];
+        particles = [];
+        // Reset bot scores and positions
+        bots.forEach(bot => {
+          bot.isAlive = true;
+          bot.score = 0;
+          bot.streak = 0;
+          bot.activeBalls = 0;
+          bot.state = 'seek';
+          bot.stateTimer = 1000;
+        });
+        // Reset positions
+        const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+        const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+        const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+        const positions = [{
+          x: scaledArenaWidth * 0.25,
+          y: scaledArenaHeight * 0.25
+        }, {
+          x: scaledArenaWidth * 0.75,
+          y: scaledArenaHeight * 0.25
+        }, {
+          x: scaledArenaWidth * 0.25,
+          y: scaledArenaHeight * 0.75
+        }, {
+          x: scaledArenaWidth * 0.75,
+          y: scaledArenaHeight * 0.75
+        }];
+        bots.forEach((bot, index) => {
+          bot.x = positions[index].x + (canvas.width - scaledArenaWidth) / 2;
+          bot.y = positions[index].y + (canvas.height - scaledArenaHeight) / 2;
+          bot.velocityX = 0;
+          bot.velocityY = 0;
+        });
+        // Update UI
+        updateScoreBoard();
+        showAnnouncement(`ROUND ${currentRound} START!`);
+        // Re-enable game
+        gameActive = true;
+      }
+      // Display announcements
+      function showAnnouncement(text, duration = 1500) {
+        announcements.textContent = text;
+        announcements.classList.add('show');
+        clearTimeout(announceTimeout);
+        announceTimeout = setTimeout(() => {
+          announcements.classList.remove('show');
+        }, duration);
+      }
+      // Update the score board UI
+      function updateScoreBoard() {
+        let html = '';
+        bots.forEach(bot => {
+          html += `
+					<div class="score-item" style="border: 2px solid ${bot.color}">
+						<span class="bot-name" style="color: ${bot.color}">${bot.name}</span>: 
+                    
+						<span>${bot.score}</span>
+					</div>`;
+        });
+        scoreBoard.innerHTML = html;
+        roundInfo.textContent = `ROUND ${currentRound} • FIRST TO ${config.winningScore} POINTS`;
+      }
+      // Handle tap/click events
+      function handleTap(e) {
+        e.preventDefault();
+        if (isPaused) {
+          // Resume game
+          isPaused = false;
+          pauseOverlay.classList.remove('active');
+        } else {
+          // Pause game
+          isPaused = true;
+          pauseOverlay.classList.add('active');
+        }
+      }
+      // Calculate distance between two points
+      function distance(x1, y1, x2, y2) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+      // Render game elements
+      function render() {
+        // Draw arena
+        const arenaScaleFactor = Math.min(canvas.width, canvas.height) / Math.max(config.arenaSize.width, config.arenaSize.height);
+        const scaledArenaWidth = config.arenaSize.width * arenaScaleFactor;
+        const scaledArenaHeight = config.arenaSize.height * arenaScaleFactor;
+        const arenaLeft = (canvas.width - scaledArenaWidth) / 2;
+        const arenaTop = (canvas.height - scaledArenaHeight) / 2;
+        // Draw arena background
+        ctx.fillStyle = '#101010';
+        ctx.fillRect(arenaLeft, arenaTop, scaledArenaWidth, scaledArenaHeight);
+        // Draw arena border
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(arenaLeft, arenaTop, scaledArenaWidth, scaledArenaHeight);
+        // Draw grid lines
+        const gridSize = 50 * arenaScaleFactor;
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+        // Vertical grid lines
+        for (let x = arenaLeft + gridSize; x < arenaLeft + scaledArenaWidth; x += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(x, arenaTop);
+          ctx.lineTo(x, arenaTop + scaledArenaHeight);
+          ctx.stroke();
+        }
+        // Horizontal grid lines
+        for (let y = arenaTop + gridSize; y < arenaTop + scaledArenaHeight; y += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(arenaLeft, y);
+          ctx.lineTo(arenaLeft + scaledArenaWidth, y);
+          ctx.stroke();
+        }
+        // Draw balls with trails
+        balls.forEach(ball => {
+          // Draw trail
+          ctx.beginPath();
+          ctx.moveTo(ball.x - ball.velocityX * 5, ball.y - ball.velocityY * 5);
+          ctx.lineTo(ball.x, ball.y);
+          ctx.strokeStyle = ball.glowColor;
+          ctx.lineWidth = ball.radius * 1.2;
+          ctx.globalAlpha = 0.3;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+          // Draw ball with glow
+          ctx.beginPath();
+          ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+          ctx.fillStyle = ball.color;
+          // Add glow effect
+          ctx.shadowColor = ball.glowColor;
+          ctx.shadowBlur = 15;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+        // Draw particles
+        particles.forEach(particle => {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2); ctx.fillStyle = particle.color; ctx.globalAlpha = particle.lifetime / 1000; ctx.fill(); ctx.globalAlpha = 1;
+            });
+          // Draw bots
+          bots.forEach(bot => {
+            if (bot.isAlive) {
+              // Draw bot glow
+              ctx.beginPath();
+              ctx.arc(bot.x, bot.y, bot.radius * 1.2, 0, Math.PI * 2);
+              ctx.fillStyle = bot.glowColor;
+              ctx.globalAlpha = 0.3;
+              ctx.fill();
+              ctx.globalAlpha = 1;
+              // Draw bot body
+              ctx.beginPath();
+              ctx.arc(bot.x, bot.y, bot.radius, 0, Math.PI * 2);
+              ctx.fillStyle = bot.color;
+              ctx.shadowColor = bot.glowColor;
+              ctx.shadowBlur = 10;
+              ctx.fill();
+              ctx.shadowBlur = 0;
+              // Draw bot face
+              ctx.fillStyle = '#000';
+              ctx.beginPath();
+              // Eyes
+              const eyeSize = bot.radius * 0.25;
+              const eyeY = bot.y - bot.radius * 0.2;
+              const eyeSpacing = bot.radius * 0.4;
+              ctx.arc(bot.x - eyeSpacing, eyeY, eyeSize, 0, Math.PI * 2);
+              ctx.arc(bot.x + eyeSpacing, eyeY, eyeSize, 0, Math.PI * 2);
+              ctx.fill();
+              // Mouth
+              const mouthY = bot.y + bot.radius * 0.2;
+              ctx.beginPath();
+              ctx.moveTo(bot.x - bot.radius * 0.4, mouthY);
+              ctx.lineTo(bot.x + bot.radius * 0.4, mouthY);
+              ctx.lineWidth = eyeSize;
+              ctx.strokeStyle = '#000';
+              ctx.stroke();
+              // Display bot state
+              ctx.font = '12px Courier New';
+              ctx.fillStyle = '#fff';
+              ctx.textAlign = 'center';
+              ctx.fillText(bot.state.toUpperCase(), bot.x, bot.y - bot.radius - 5);
+            } else {
+              // Draw respawn timer
+              const respawnSeconds = Math.ceil(bot.respawnTime / 1000);
+              if (respawnSeconds > 0) {
+                ctx.font = '20px Courier New';
+                ctx.fillStyle = bot.color;
+                ctx.textAlign = 'center';
+                ctx.fillText(respawnSeconds.toString(), bot.x, bot.y);
+              }
+            }
+          });
+        }
+        // Initialize the game when the page loads
+        window.onload = init;
+    </script>
+  </body>
+</html>
