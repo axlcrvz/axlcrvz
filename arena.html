@@ -60,7 +60,23 @@
       <div id="score"></div>
     </div>
     <div id="winnerPopup"></div>
+    <!-- Audio element for background music -->
+    <audio id="backgroundAudio" loop>
+      <source src="loop.mp3" type="audio/mpeg">
+      <!-- You can add more source elements with different formats for better browser compatibility -->
+      <!-- <source src="your-audio-file-path-here.ogg" type="audio/ogg"> -->
+    </audio>
     <script>
+      // Audio setup
+      const backgroundAudio = document.getElementById('backgroundAudio');
+      // Start playing audio when user interacts with the page
+      document.addEventListener('click', function() {
+        if (backgroundAudio.paused) {
+          backgroundAudio.play().catch(e => console.log("Audio play failed:", e));
+        }
+      }, {
+        once: true
+      });
       // Canvas setup
       const canvas = document.getElementById('gameCanvas');
       const ctx = canvas.getContext('2d');
@@ -460,8 +476,9 @@
         // Show winner popup
         const winnerPopup = document.getElementById('winnerPopup');
         winnerPopup.innerHTML = `
-					<h2>${winner.name} GANA!</h2>
-					<p>Primero en Conseguir ${KILLS_TO_WIN} Bajas</p>`;
+					
+						<h2>${winner.name} GANA!</h2>
+						<p>Primero en Conseguir ${KILLS_TO_WIN} Bajas</p>`;
         winnerPopup.style.borderColor = winner.color;
         winnerPopup.style.boxShadow = `0 0 20px ${winner.color}`;
         winnerPopup.style.display = 'block';
@@ -595,7 +612,8 @@
         let scoreHTML = '';
         for (const bot of bots) {
           scoreHTML += `
-					<div>${bot.name}: ${bot.kills} Bajas - ${Math.floor(bot.health)}% Salud</div>`;
+					
+						<div>${bot.name}: ${bot.kills} Bajas - ${Math.floor(bot.health)}% Salud</div>`;
         }
         scoreDiv.innerHTML = scoreHTML;
       }
