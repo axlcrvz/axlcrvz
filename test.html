@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Hub - Curated Recommendations</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        padding: 60px 0 40px;
+        text-align: center;
+        background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+      }
+
+      .logo {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+        color: #aaaaaa;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Search Bar */
+      .search-section {
+        padding: 40px 0;
+        text-align: center;
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .search-bar {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 18px 24px 18px 60px;
+        color: #ffffff;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .search-bar:focus {
+        border-color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+      }
+
+      .search-bar::placeholder {
+        color: #666666;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaaaaa;
+        font-size: 1.2rem;
+        pointer-events: none;
+      }
+
+      .search-results {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #aaaaaa;
+      }
+
+      /* Main Content */
+      main {
+        padding: 40px 0 80px;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 60px;
+        color: #ffffff;
+      }
+
+      /* Product Grid */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        margin-bottom: 100px;
+        transition: all 0.3s ease;
+      }
+
+      .product-card {
+        background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
+        border-radius: 20px;
+        padding: 32px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .product-card.hidden {
+        display: none;
+      }
+
+      .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .product-card:hover::before {
+        opacity: 1;
+      }
+
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        border-radius: 12px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s ease;
+      }
+
+      .product-card:hover .product-image::after {
+        left: 100%;
+      }
+
+      .product-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #ffffff;
+      }
+
+      .product-description {
+        color: #aaaaaa;
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      .product-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 20px;
+      }
+
+      .shop-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+        color: #ffffff;
+        padding: 14px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shop-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .shop-button:hover::before {
+        left: 100%;
+      }
+
+      .shop-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, #404040 0%, #262626 100%);
+      }
+
+      /* Contact Form Section */
+      .contact-section {
+        background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
+        border-radius: 24px;
+        padding: 60px 40px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .contact-section h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #ffffff;
+      }
+
+      .contact-section p {
+        color: #aaaaaa;
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-label {
+        font-weight: 500;
+        color: #ffffff;
+        text-align: left;
+      }
+
+      .form-input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 16px 20px;
+        color: #ffffff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        resize: vertical;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+      }
+
+      .form-input::placeholder {
+        color: #666666;
+      }
+
+      .form-textarea {
+        min-height: 120px;
+        font-family: inherit;
+        resize: vertical;
+      }
+
+      .submit-button {
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+        color: #000000;
+        border: none;
+        padding: 16px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      .submit-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .submit-button:hover::before {
+        left: 100%;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+      }
+
+      .submit-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Footer */
+      footer {
+        padding: 60px 0;
+        text-align: center;
+        color: #666666;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 16px;
+        }
+
+        .logo {
+          font-size: 2rem;
+        }
+
+        .tagline {
+          font-size: 1.1rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .products-grid {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .product-card {
+          padding: 24px;
+        }
+
+        .contact-section {
+          padding: 40px 24px;
+        }
+
+        .contact-section h2 {
+          font-size: 1.6rem;
+        }
+
+        .contact-section p {
+          font-size: 1rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Loading states */
+      .loading {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .success-message {
+        color: #4CAF50;
+        font-weight: 500;
+        margin-top: 16px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+
+      .success-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .error-message {
+        color: #f44336;
+        font-weight: 500;
+        margin-top: 16px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+
+      .error-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">Product Hub</h1>
+        <p class="tagline">Carefully curated recommendations for the modern entrepreneur</p>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <!-- Search Section -->
+        <section class="search-section">
+          <div class="search-container">
+            <div style="position: relative;">
+              <span class="search-icon">🔍</span>
+              <input type="text" class="search-bar" placeholder="Search products..." id="searchInput" autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </section>
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products-grid">
+          <!-- Product 1 -->
+          <div class="product-card">
+            <div class="product-image">🎥</div>
+            <h3 class="product-title">Syllaby</h3>
+            <p class="product-description">Social media-ready videos with no experience needed! Find viral topics and Syllaby creates a video with script, visuals, subtitles, and your own AI voice!</p>
+            <div class="product-price">$0.00</div>
+            <a href="https://syllaby.io/?via=axl34" class="shop-button">Start your Free Trial Today</a>
+          </div>
+          <!-- Product 2 -->
+          <div class="product-card">
+            <div class="product-image">🎧</div>
+            <h3 class="product-title">Beats with commercial rights</h3>
+            <p class="product-description">Unlock your sound with beats that come with full commercial rights—ready for you to record, release, and monetize on all major streaming platforms.</p>
+            <div class="product-price">$30.00</div>
+            <a href="https://axlcrvz.com/beats-en" class="shop-button">Shop Now</a>
+          </div>
+          <!-- Product 3 -->
+          <div class="product-card">
+            <div class="product-image">📱</div>
+            <h3 class="product-title">The $1 Whop</h3>
+            <p class="product-description">Join the $1 Whop—an exclusive community where you'll learn how to get paid to post on TikTok for brands, even if you're just starting out.</p>
+            <div class="product-price">$1.00</div>
+            <a href="https://whop.com/the-1-whop" class="shop-button">Join Now</a>
+          </div>
+        </div>
+        <!-- Contact Form Section -->
+        <section class="contact-section">
+          <h2>Get in Touch</h2>
+          <p>Have questions about our products? Want to suggest a new product? We'd love to hear from you. Send us a message and we'll get back to you as soon as possible.</p>
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="name">Name *</label>
+                <input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" class="form-input" placeholder="What is this about?">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Message *</label>
+              <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell us what's on your mind..." required></textarea>
+            </div>
+            <button type="submit" class="submit-button" id="submitBtn"> Send Message </button>
+            <div class="success-message" id="successMessage"> Thank you for your message! We'll get back to you soon. </div>
+            <div class="error-message" id="errorMessage"> Sorry, there was an error sending your message. Please try again. </div>
+          </form>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Product Hub. All rights reserved. | Carefully curated recommendations for modern living.</p>
+      </div>
+    </footer>
+    <script>
+      // Search functionality
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      const productCards = document.querySelectorAll('.product-card');
+      // Create searchable data from products
+      const products = Array.from(productCards).map((card, index) => ({
+        element: card,
+        title: card.querySelector('.product-title').textContent.toLowerCase(),
+        description: card.querySelector('.product-description').textContent.toLowerCase(),
+        price: card.querySelector('.product-price').textContent.toLowerCase()
+      }));
+
+      function performSearch(query) {
+        const searchTerm = query.toLowerCase().trim();
+        let visibleCount = 0;
+        if (searchTerm === '') {
+          // Show all products
+          products.forEach(product => {
+            product.element.classList.remove('hidden');
+            visibleCount++;
+          });
+          searchResults.textContent = '';
+          return;
+        }
+        // Filter products
+        products.forEach(product => {
+          const isMatch = product.title.includes(searchTerm) || product.description.includes(searchTerm) || product.price.includes(searchTerm);
+          if (isMatch) {
+            product.element.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            product.element.classList.add('hidden');
+          }
+        });
+        // Update search results text
+        if (visibleCount === 0) {
+          searchResults.textContent = 'No products found. Try a different search term.';
+        } else if (visibleCount === 1) {
+          searchResults.textContent = '1 product found';
+        } else {
+          searchResults.textContent = `${visibleCount} products found`;
+        }
+      }
+      // Add search event listeners
+      searchInput.addEventListener('input', (e) => {
+        performSearch(e.target.value);
+      });
+      // Clear search on escape key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          performSearch('');
+          searchInput.blur();
+        }
+      });
+      // Contact form submission handler
+      document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const form = e.target;
+        // Hide any existing messages
+        successMessage.classList.remove('show');
+        errorMessage.classList.remove('show');
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          subject: formData.get('subject') || 'New Contact Form Message',
+          message: formData.get('message'),
+          timestamp: new Date().toISOString()
+        };
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        form.classList.add('loading');
+        try {
+          // Replace with your actual endpoint (Google Apps Script, Netlify Forms, etc.)
+          const response = await fetch('https://script.google.com/macros/s/AKfycbwu-K9KS6DU4d7VqiLiXsALDTSAcy4Q_oLeYpIl0Mrg8elscDlJW9yjuOjAc_Npd7wS4Q/exec', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          });
+          if (response.ok) {
+            // Show success message
+            successMessage.classList.add('show');
+            form.reset();
+            // Hide success message after 7 seconds
+            setTimeout(() => {
+              successMessage.classList.remove('show');
+            }, 7000);
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          errorMessage.classList.add('show');
+          // Hide error message after 7 seconds
+          setTimeout(() => {
+            errorMessage.classList.remove('show');
+          }, 7000);
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+          form.classList.remove('loading');
+        }
+      });
+      // Auto-resize textarea
+      const textarea = document.getElementById('message');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+      // Smooth scrolling for any anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+      // Add subtle parallax effect to header
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('header');
+        if (header) {
+          header.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+      });
+    </script>
+  </body>
+</html>
