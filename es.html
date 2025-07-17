@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>axlcrvz.com</title>
+    <title>Product Hub - Curated Recommendations</title>
     <style>
       * {
         margin: 0;
@@ -245,8 +245,8 @@
         background: linear-gradient(135deg, #404040 0%, #262626 100%);
       }
 
-      /* Email Form Section */
-      .email-section {
+      /* Contact Form Section */
+      .contact-section {
         background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
         border-radius: 24px;
         padding: 60px 40px;
@@ -254,27 +254,27 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      .email-section h2 {
+      .contact-section h2 {
         font-size: 2rem;
         font-weight: 600;
         margin-bottom: 16px;
         color: #ffffff;
       }
 
-      .email-section p {
+      .contact-section p {
         color: #aaaaaa;
         font-size: 1.1rem;
         margin-bottom: 40px;
-        max-width: 500px;
+        max-width: 600px;
         margin-left: auto;
         margin-right: auto;
       }
 
-      .email-form {
+      .contact-form {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        max-width: 400px;
+        max-width: 600px;
         margin: 0 auto;
       }
 
@@ -282,6 +282,12 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
       }
 
       .form-label {
@@ -298,6 +304,7 @@
         color: #ffffff;
         font-size: 1rem;
         transition: all 0.3s ease;
+        resize: vertical;
       }
 
       .form-input:focus {
@@ -309,6 +316,12 @@
 
       .form-input::placeholder {
         color: #666666;
+      }
+
+      .form-textarea {
+        min-height: 120px;
+        font-family: inherit;
+        resize: vertical;
       }
 
       .submit-button {
@@ -323,6 +336,7 @@
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
+        margin-top: 10px;
       }
 
       .submit-button::before {
@@ -387,16 +401,20 @@
           padding: 24px;
         }
 
-        .email-section {
+        .contact-section {
           padding: 40px 24px;
         }
 
-        .email-section h2 {
+        .contact-section h2 {
           font-size: 1.6rem;
         }
 
-        .email-section p {
+        .contact-section p {
           font-size: 1rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -419,13 +437,27 @@
         opacity: 1;
         transform: translateY(0);
       }
+
+      .error-message {
+        color: #f44336;
+        font-weight: 500;
+        margin-top: 16px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+
+      .error-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
     <header>
       <div class="container">
         <h1 class="logo">Product Hub</h1>
-        <p class="tagline">Recomendaciones cuidadosamente seleccionadas para el emprendedor moderno</p>
+        <p class="tagline">Recomendaciones cuidadosamente seleccionadas para el emprendedor moderno </p>
       </div>
     </header>
     <main>
@@ -448,13 +480,13 @@
             <h3 class="product-title">Syllaby</h3>
             <p class="product-description">¡Videos listos para redes sociales sin necesidad de experiencia! Encuentra temas virales y Syllaby crea un video con guion, visuales, subtítulos y tu propia voz con IA.</p>
             <div class="product-price">$0.00</div>
-            <a href="https://syllaby.io/?via=axl34" class="shop-button">Empieza tu prueba gratuita hoy </a>
+            <a href="https://syllaby.io/?via=axl34" class="shop-button">Empieza tu prueba gratuita hoy</a>
           </div>
           <!-- Product 2 -->
           <div class="product-card">
             <div class="product-image">🎧</div>
-            <h3 class="product-title">Beats con derechos comerciales </h3>
-            <p class="product-description">Libera tu sonido con beats que incluyen derechos comerciales completos—listos para que grabes, publiques y monetices en todas las plataformas de streaming. </p>
+            <h3 class="product-title">Beats con derechos comerciales</h3>
+            <p class="product-description">Libera tu sonido con beats que incluyen derechos comerciales completos—listos para que grabes, publiques y monetices en todas las plataformas de streaming.</p>
             <div class="product-price">$30.00</div>
             <a href="https://axlcrvz.com/beats-en" class="shop-button">Comprar ahora</a>
           </div>
@@ -467,25 +499,32 @@
             <a href="https://www.mentedigitalqro.com/" class="shop-button">Empieza Ahora</a>
           </div>
         </div>
-        <!-- Email Signup Section -->
-        <section class="email-section">
-          <h2>Mantente Actualizado </h2>
-          <p>Recibe recomendaciones de productos y ofertas exclusivas directamente en tu bandeja de entrada. </p>
-          <form class="email-form" id="emailForm">
-            <div class="form-group">
-              <label class="form-label" for="name">Nombre</label>
-              <input type="text" id="name" name="name" class="form-input" placeholder="Escribe tu nombre
-
-" required>
+        <!-- Contact Form Section -->
+        <section class="contact-section">
+          <h2>Contáctame</h2>
+          <p>¿Tienes preguntas? Envíame un mensaje y te responderé lo antes posible.</p>
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="name">Nombre *</label>
+                <input type="text" id="name" name="name" class="form-input" placeholder="Tu nombre completo" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Correo electrónico *</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="tu@correo.com" required>
+              </div>
             </div>
             <div class="form-group">
-              <label class="form-label" for="email">Correo electrónico</label>
-              <input type="email" id="email" name="email" class="form-input" placeholder="Escribe tu correo electrónico
-
-" required>
+              <label class="form-label" for="subject">Asunto</label>
+              <input type="text" id="subject" name="subject" class="form-input" placeholder="¿De qué se trata?">
             </div>
-            <button type="submit" class="submit-button" id="submitBtn"> Suscribirse ahora </button>
-            <div class="success-message" id="successMessage"> ¡Gracias por suscribirte! Pronto sabrás de nosotros. </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Mensaje *</label>
+              <textarea id="message" name="message" class="form-input form-textarea" placeholder="Cuéntame qué tienes en mente..." required></textarea>
+            </div>
+            <button type="submit" class="submit-button" id="submitBtn">Enviar mensaje</button>
+            <div class="success-message" id="successMessage">¡Gracias por tu mensaje! Te responderé pronto.</div>
+            <div class="error-message" id="errorMessage">Lo siento, hubo un error al enviar tu mensaje. Por favor, intenta de nuevo.</div>
           </form>
         </section>
       </div>
@@ -551,53 +590,59 @@
           searchInput.blur();
         }
       });
-      // Form submission handler
-      document.getElementById('emailForm').addEventListener('submit', async function(e) {
+      // Contact form submission handler
+      document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
         const form = e.target;
+        // Hide any existing messages
+        successMessage.classList.remove('show');
+        errorMessage.classList.remove('show');
         // Get form data
         const formData = new FormData(form);
-        const data = {
-          name: formData.get('name'),
-          email: formData.get('email'),
-          timestamp: new Date().toISOString()
-        };
         // Show loading state
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Subscribing...';
+        submitBtn.textContent = 'Sending...';
         form.classList.add('loading');
         try {
-          // Replace with your Google Apps Script URL
-          const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+          // Updated approach using FormData directly
+          const response = await fetch('https://script.google.com/macros/s/AKfycbwkebtbFCOG8V_wsiNbA_QDXjNkbR1z58wJ5eTNp561BBh80JAPgn1wjGURf5ZFXtaoLg/exec', {
             method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+            body: formData
           });
-          if (response.ok) {
+          const result = await response.text();
+          if (response.ok && result.includes('Success')) {
             // Show success message
             successMessage.classList.add('show');
             form.reset();
-            // Hide success message after 5 seconds
+            // Hide success message after 7 seconds
             setTimeout(() => {
               successMessage.classList.remove('show');
-            }, 5000);
+            }, 7000);
           } else {
-            throw new Error('Network response was not ok');
+            throw new Error('Server response indicates failure');
           }
         } catch (error) {
           console.error('Error:', error);
-          alert('There was an error subscribing. Please try again.');
+          errorMessage.classList.add('show');
+          // Hide error message after 7 seconds
+          setTimeout(() => {
+            errorMessage.classList.remove('show');
+          }, 7000);
         } finally {
           // Reset button state
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Subscribe Now';
+          submitBtn.textContent = 'Send Message';
           form.classList.remove('loading');
         }
+      });
+      // Auto-resize textarea
+      const textarea = document.getElementById('message');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
       });
       // Smooth scrolling for any anchor links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
